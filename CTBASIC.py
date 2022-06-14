@@ -64,6 +64,12 @@ def parse_bin(line):
     return b
 
 
+# FILL / ZFILL parser
+def parse_fill(line, fill):
+    n = int(line[5:].strip())
+    return str(fill) * n
+
+
 def compile_(source):
     output = ''
     for line in source:
@@ -83,6 +89,10 @@ def compile_(source):
             append = parse_print(line)
         elif line.startswith('ASM'):
             append = parse_asm(line)
+        elif line.startswith('FILL'):
+            append = parse_fill(line, 1)
+        elif line.startswith('ZFILL'):
+            append = parse_fill(line, 0)
         elif line.startswith('ENDIF'):
             pass 
         elif line.startswith('END'):
