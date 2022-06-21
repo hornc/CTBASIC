@@ -59,7 +59,7 @@ def parse_asm(line):
 
 
 def parse_bin(line):
-    b = line[4:]
+    b = line[4:].replace(' ', '')
     assert BIN.match(b)
     return b
 
