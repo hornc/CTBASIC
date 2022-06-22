@@ -18,6 +18,8 @@ ETX = '\x03'
 ASM_CT = re.compile(r'^[01;]*$')
 BIN = re.compile(r'^[01]*$')
 
+PRINTLINE = re.compile(r'("[^"]*"|CHR\$\(\d+\))')
+
 
 def parse_clear(line):
     n = int(line[6:])
@@ -46,10 +48,20 @@ def data(lst):
 
 def parse_print(line):
     r = []
-    s = STX + line[6:].strip('"') + ETX
+    line = PRINTLINE.split(line[6:])
+    s = ''
+    for v in line:
+        v = v.strip()
+        if not v:
+            continue
+        if v.startswith('CHR$'):
+            s += chr(int(re.search(r'\d+', v)[0]))
+        else:
+            s += v.strip('"')
+    s = STX + s + ETX
     for c in s:
         r += [1, c, 0]
-    return data(r) # + clear(len(s) * 10)
+    return data(r)
 
 
 def parse_asm(line):
@@ -59,9 +71,15 @@ def parse_asm(line):
 
 
 def parse_bin(line):
-    b = line[4:]
+    b = line[4:].replace(' ', '')
     assert BIN.match(b)
     return b
+
+
+# FILL / ZFILL parser
+def parse_fill(line, fill):
+    n = int(line[5:].strip())
+    return str(fill) * n
 
 
 def compile_(source):
@@ -83,6 +101,10 @@ def compile_(source):
             append = parse_print(line)
         elif line.startswith('ASM'):
             append = parse_asm(line)
+        elif line.startswith('FILL'):
+            append = parse_fill(line, 1)
+        elif line.startswith('ZFILL'):
+            append = parse_fill(line, 0)
         elif line.startswith('ENDIF'):
             pass 
         elif line.startswith('END'):
