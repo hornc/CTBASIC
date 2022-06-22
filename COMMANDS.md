@@ -4,7 +4,10 @@
 Comments. Ignored by the compiler.
 
 ### PRINT "_s_"
-Write (and then remove) STX / ETX bounded string, with start=1 and end=0 bits (10 bits per frame) to DATA (output data convention).
+Write STX / ETX bounded string, with start=1 and end=0 bits (10 bits per frame) to DATA (output data convention).
+
+### CHR$(_n_)
+Convert number _n_ into its ASCII character (8bit). Useful for sending ASCII control characters using `PRINT`.
 
 ### DATA
 Write binary / boolean / integer / string to DATA.
