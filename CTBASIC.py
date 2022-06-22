@@ -149,8 +149,8 @@ Cook, Matthew (2009). "A Concrete View of Rule 110 Computation". In Neary, T.; W
 Electronic Proceedings in Theoretical Computer Science. Vol. 1. pp. 31–55.
 doi: 10.4204/EPTCS.1.4 (https://doi.org/10.4204/EPTCS.1.4)
     """
-    appendants = ct.split(';')
-    count = len(appendants) - 1
+    appendants = ct.split(';')[:-1]
+    count = len(appendants)
     if (count % 6) != 0:
         return rule110(expandsix(ct), data)
 
@@ -163,7 +163,7 @@ doi: 10.4204/EPTCS.1.4 (https://doi.org/10.4204/EPTCS.1.4)
             empty += 1
             right += 'L'
             continue
-        d = a.replace('0', 'II').replace('1', 'IJ')
+        d = a.replace('0', 'IJ').replace('1', 'II')
         d = 'KH' + d[1:]
         right += d
     right = right[1:] + right[0]
