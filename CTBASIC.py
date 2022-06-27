@@ -14,6 +14,7 @@ import re
 import sys
 
 from CTBASIC.rule110 import rule110
+from CTBASIC import audio
 from CTBASIC import graphics
 
 
@@ -118,6 +119,8 @@ def compile_(source):
             append = parse_fill(line, 0)
         elif graphics.match(line):
             append = print_(graphics.parse(line))
+        elif audio.match(line):
+            append = print_(audio.parse(line))
         elif line.startswith('ENDIF'):
             pass 
         elif line.startswith('END'):
