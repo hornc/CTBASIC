@@ -136,7 +136,6 @@ def compile_(source):
             append = parse_fill(line, 0)
         elif graphics.match(line):
             append = print_(graphics.parse(line))
-            #print('DEBUG', append)
         elif line.startswith('ENDIF'):
             pass 
         elif line.startswith('END'):
