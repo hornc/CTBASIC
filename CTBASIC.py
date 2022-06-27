@@ -13,6 +13,8 @@ import re
 import sys
 
 from CTBASIC.rule110 import rule110
+from CTBASIC import graphics
+
 
 STX = '\x02'
 ETX = '\x03'
@@ -46,6 +48,10 @@ def bits(n, pad=0):
     return bin(n)[2:].zfill(pad)
 
 
+def chr_(s):
+    return chr(int(re.search(r'\d+', s)[0]))
+
+
 def data(lst):
     output = ''
     for item in lst:
@@ -64,9 +70,8 @@ def data(lst):
 
 def parse_print(line):
     r = ''
-    line = PRINTLINE.split(line[6:])
     s = ''
-    for v in line:
+    for v in PRINTLINE.split(line[6:]):
         v = v.strip()
         if not v:
             continue
@@ -74,6 +79,14 @@ def parse_print(line):
             s += chr_(v)
         else:
             s += v.strip('"')
+    s = STX + s + ETX
+    for c in s:
+        r += '1' + bits(ord(c), 8) + '0'
+    return r
+
+
+def print_(s):
+    r = []
     s = STX + s + ETX
     for c in s:
         r += '1' + bits(ord(c), 8) + '0'
@@ -121,6 +134,9 @@ def compile_(source):
             append = parse_fill(line, 1)
         elif line.startswith('ZFILL'):
             append = parse_fill(line, 0)
+        elif graphics.match(line):
+            append = print_(graphics.parse(line))
+            #print('DEBUG', append)
         elif line.startswith('ENDIF'):
             pass 
         elif line.startswith('END'):
@@ -129,7 +145,7 @@ def compile_(source):
     return output
 
 
-# From abct output.py
+# Binary to bijective base-2 (taken from abct output.py)
 bin_to_bb2 = lambda s: sum([int(c) * 2 ** i for i,c in enumerate(s.replace(' ', '').replace('1', '2').replace('0', '1'))])
 
 
