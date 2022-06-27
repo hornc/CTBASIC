@@ -13,6 +13,7 @@ import re
 import sys
 
 from CTBASIC.rule110 import rule110
+from CTBASIC import audio
 from CTBASIC import graphics
 from CTBASIC.graphics import Graphics
 
@@ -176,6 +177,8 @@ class CTCompiler:
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
                 append += print_(STX + graphics.CLS + ETX)
+            elif audio.match(line):
+                append = print_(audio.parse(line))
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):
