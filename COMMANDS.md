@@ -32,3 +32,13 @@ Assign the next bit of input data to variable _v_. Can only be used one at the b
 
 ### END
 Completely consume datastring DATA to trigger the cyclic tag system halt condition.
+
+## Graphics
+
+CTBASIC can produce Tektronix 401x graphical output using the following commands:
+
+### PLOT _x_, _y_
+
+
+### DRAW _x_, _y_
+
