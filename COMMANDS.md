@@ -35,10 +35,17 @@ Completely consume datastring DATA to trigger the cyclic tag system halt conditi
 
 ## Graphics
 
-CTBASIC can produce Tektronix 401x graphical output using the following commands:
+CTBASIC can produce Tektronix 401x graphical output using the following ZX Spectrum borrowed commands:
 
 ### PLOT _x_, _y_
+Plots a point at absolute coordinate _x_, _y_.
+* _x_ range: 0–1023.
+* _y_ range: 0–779.
 
+`0, 0` represents the bottom-left corner of the screen.
 
-### DRAW _x_, _y_
+### DRAW _Δx_, _Δy_
+Draws a line from the last pixel of the previous `PLOT` or `DRAW` using relative offsets.
 
+### CLS
+Clear screen. Writes Tektronix 401x control sequence `ESC` + `FF`.
