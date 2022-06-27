@@ -2,7 +2,12 @@
 
 A [Cyclic Tag](https://esolangs.org/wiki/Cyclic_tag_system) BASIC compiler.
 
-Compiles a reduced dialect of BASIC into [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT), [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag), or [ABCT](https://github.com/hornc/abctag).
+Compiles a reduced dialect of BASIC into one of the following compilation targets:
+
+* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag)
+* [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) (Bitwise Cyclic Tag)
+* [ABCT](https://github.com/hornc/abctag) (Arithmetic Bitwise Cyclic Tag)
+* [Rule 110](https://en.wikipedia.org/wiki/Rule_110), using the ["blocks of bits" construction developed and described by Matthew Cook](https://doi.org/10.4204/eptcs.1.4)
 
 Experimental / work in progress. Details and usabilty are still being worked out.
 
