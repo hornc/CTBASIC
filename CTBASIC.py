@@ -13,6 +13,8 @@ import json
 import re
 import sys
 
+from CTBASIC.rule110 import rule110
+
 STX = '\x02'
 ETX = '\x03'
 ASM_CT = re.compile(r'^[01;]*$')
@@ -141,3 +143,5 @@ if __name__ == '__main__':
         print(bct(output))
     elif target == 'ABCT':
         print(abct(output))
+    elif target == '110':
+        print(rule110(output, data='1'))
