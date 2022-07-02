@@ -48,10 +48,6 @@ def bits(n, pad=0):
     return bin(n)[2:].zfill(pad)
 
 
-def chr_(s):
-    return chr(int(re.search(r'\d+', s)[0]))
-
-
 def data(lst):
     output = ''
     for item in lst:
@@ -69,7 +65,6 @@ def data(lst):
 
 
 def parse_print(line):
-    r = ''
     s = ''
     for v in PRINTLINE.split(line[6:]):
         v = v.strip()
@@ -80,13 +75,11 @@ def parse_print(line):
         else:
             s += v.strip('"')
     s = STX + s + ETX
-    for c in s:
-        r += '1' + bits(ord(c), 8) + '0'
-    return r
+    return print_(s)
 
 
 def print_(s):
-    r = []
+    r = ''
     s = STX + s + ETX
     for c in s:
         r += '1' + bits(ord(c), 8) + '0'
