@@ -74,7 +74,6 @@ def parse_print(line):
             s += chr_(v)
         else:
             s += v.strip('"')
-    s = STX + s + ETX
     return print_(s)
 
 
