@@ -9,7 +9,6 @@ Salpynx, 2022.
 """
 
 import argparse
-import json
 import re
 import sys
 
@@ -28,28 +27,43 @@ def parse_clear(line):
     return clear(n)
 
 
+def chr_(command):
+    """CHR$()."""
+    return chr(int(re.search(r'\d+', command)[0]))
+
+
 def clear(n):
     return ';' * n
 
 
 def parse_data(line):
-    d = json.loads('[' + line[5:] + ']')
-    r = data(d)
+    re_data = re.compile(r'"[^"]*"|CHR\$\(\d+\)|\d+')
+    r = data(re_data.findall(line))
     return r
+
+
+def bits(n, pad=0):
+    return bin(n)[2:].zfill(pad)
 
 
 def data(lst):
     output = ''
     for item in lst:
-        if isinstance(item, str):
-            output += ''.join([bin(ord(c))[2:] for c in item]).zfill(8)
-        elif isinstance(item, int):
-            output += bin(item)[2:]
+        if isinstance(item, int):
+            output += bits(item)
+        elif item.startswith('CHR$'):
+            output += bits(ord(chr_(item)), 8)
+        elif item.startswith('"'):
+            output += ''.join([bits(ord(c), 8) for c in item.strip('"')])
+        elif re.match(r'\d+', item):
+            output += bits(int(item))
+        elif len(item) == 1:
+            output += bits(ord(item), 8)
     return output
 
 
 def parse_print(line):
-    r = []
+    r = ''
     line = PRINTLINE.split(line[6:])
     s = ''
     for v in line:
@@ -57,13 +71,13 @@ def parse_print(line):
         if not v:
             continue
         if v.startswith('CHR$'):
-            s += chr(int(re.search(r'\d+', v)[0]))
+            s += chr_(v)
         else:
             s += v.strip('"')
     s = STX + s + ETX
     for c in s:
-        r += [1, c, 0]
-    return data(r)
+        r += '1' + bits(ord(c), 8) + '0'
+    return r
 
 
 def parse_asm(line):
