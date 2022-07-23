@@ -108,61 +108,78 @@ def parse_fill(line, fill):
     return str(fill) * n
 
 
-def compile_(source):
-    output = ''
-    context = [CONTROL]
-    for line in source:
-        line = line.strip()
-        append = ''
-        if line.startswith('REM') or not line:
-            continue
-        elif line.startswith('INPUT'):
-            pass
-        elif line.startswith('DATA'):
-            append = parse_data(line) 
-        elif line.startswith('BIN'):
-            if context[-1] != CONTROL:
-                context.pop()
-                append += print_(ETX)
-                context[-1] == CONTROL
-            append += parse_bin(line)
-        elif line.startswith('CLEAR'):
-            if context[-1] != CONTROL:
-                context.pop()
-                append += print_(ETX)
-                context[-1] == CONTROL
-            append += parse_clear(line)
-        elif line.startswith('PRINT'):
-            if context[-1] == CONTROL:
-                context += [OUTPUT, TEXT]
-                append += print_(STX)
-            elif context[-1] == GRAPH:
-                context[-1] == TEXT
-                append += print_(graphics.US)
-            append += parse_print(line)
-        elif line.startswith('ASM'):
-            append = parse_asm(line)
-        elif line.startswith('FILL'):
-            append = parse_fill(line, 1)
-        elif line.startswith('ZFILL'):
-            append = parse_fill(line, 0)
-        elif line.startswith('CLS'):
-            append = print_(STX + graphics.parse(line) + ETX)
-        elif graphics.match(line):
-            if context[-1] == CONTROL:
-                context += [OUTPUT, GRAPH]
-                append += print_(STX + graphics.GS)
-            elif context[-1] == TEXT:
-                context[-1] == GRAPH
-                append += print_(graphics.GS)
-            append += print_(graphics.parse(line))
-            #append = graphics.parse(line)
-        elif line.startswith('ENDIF'):
-            pass 
-        elif line.startswith('END'):
-            append = clear(2) 
-        output += str(append)
-    return output
+class CTCompiler:
+    def __init__(self, lines):
+        self.source = lines
+        self.ct = None
+
+    def compile(self, target='CT'):
+        if not self.ct:
+            self.compile_()
+        if target == 'CT':
+            return self.ct
+        if target == 'BCT':
+            return bct(self.ct)
+        if target == 'ABCT':
+            return abct(self.ct)
+        if target == '110':
+            return rule110(self.ct, data='1')
+
+    def compile_(self):
+        ct = ''
+        context = [CONTROL]
+        for line in self.source:
+            line = line.strip()
+            append = ''
+            if line.startswith('REM') or not line:
+                continue
+            elif line.startswith('INPUT'):
+                pass
+            elif line.startswith('DATA'):
+                append = parse_data(line)
+            elif line.startswith('BIN'):
+                if context[-1] != CONTROL:
+                    context.pop()
+                    append += print_(ETX)
+                    context[-1] == CONTROL
+                append += parse_bin(line)
+            elif line.startswith('CLEAR'):
+                if context[-1] != CONTROL:
+                    context.pop()
+                    append += print_(ETX)
+                    context[-1] == CONTROL
+                append += parse_clear(line)
+            elif line.startswith('PRINT'):
+                if context[-1] == CONTROL:
+                    context += [OUTPUT, TEXT]
+                    append += print_(STX)
+                elif context[-1] == GRAPH:
+                    context[-1] == TEXT
+                    append += print_(graphics.US)
+                append += parse_print(line)
+            elif line.startswith('ASM'):
+                append = parse_asm(line)
+            elif line.startswith('FILL'):
+                append = parse_fill(line, 1)
+            elif line.startswith('ZFILL'):
+                append = parse_fill(line, 0)
+            elif line.startswith('CLS'):
+                append = print_(STX + graphics.parse(line) + ETX)
+            elif graphics.match(line):
+                if context[-1] == CONTROL:
+                    context += [OUTPUT, GRAPH]
+                    append += print_(STX + graphics.GS)
+                elif context[-1] == TEXT:
+                    context[-1] == GRAPH
+                    append += print_(graphics.GS)
+                append += print_(graphics.parse(line))
+                #append = graphics.parse(line)
+            elif line.startswith('ENDIF'):
+                pass
+            elif line.startswith('END'):
+                append = clear(2)
+            ct += str(append)
+        self.ct = ct
 
 
 # Binary to bijective base-2 (taken from abct output.py)
@@ -185,13 +202,6 @@ if __name__ == '__main__':
     parser.add_argument('--debug', '-d', help='Turn on debug output', action='store_true')
     args = parser.parse_args()
 
-    output = compile_(args.source.readlines())
-    target = args.target
-    if target == 'CT':
-        print(output)
-    elif target == 'BCT':
-        print(bct(output))
-    elif target == 'ABCT':
-        print(abct(output))
-    elif target == '110':
-        print(rule110(output, data='1'))
+    c = CTCompiler(args.source.readlines())
+    output = c.compile(args.target)
+    print(output)
