@@ -23,6 +23,12 @@ BIN = re.compile(r'^[01]*$')
 
 PRINTLINE = re.compile(r'("[^"]*"|CHR\$\(\d+\))')
 
+# Context constants:
+CONTROL = 0
+OUTPUT = 1
+TEXT = 3
+GRAPH = 5
+
 
 def parse_clear(line):
     n = int(line[6:])
@@ -79,7 +85,6 @@ def parse_print(line):
 
 def print_(s):
     r = ''
-    s = STX + s + ETX
     for c in s:
         r += '1' + bits(ord(c), 8) + '0'
     return r
@@ -105,6 +110,7 @@ def parse_fill(line, fill):
 
 def compile_(source):
     output = ''
+    context = [CONTROL]
     for line in source:
         line = line.strip()
         append = ''
@@ -115,19 +121,42 @@ def compile_(source):
         elif line.startswith('DATA'):
             append = parse_data(line) 
         elif line.startswith('BIN'):
-            append = parse_bin(line)
+            if context[-1] != CONTROL:
+                context.pop()
+                append += print_(ETX)
+                context[-1] == CONTROL
+            append += parse_bin(line)
         elif line.startswith('CLEAR'):
-            append = parse_clear(line)
+            if context[-1] != CONTROL:
+                context.pop()
+                append += print_(ETX)
+                context[-1] == CONTROL
+            append += parse_clear(line)
         elif line.startswith('PRINT'):
-            append = parse_print(line)
+            if context[-1] == CONTROL:
+                context += [OUTPUT, TEXT]
+                append += print_(STX)
+            elif context[-1] == GRAPH:
+                context[-1] == TEXT
+                append += print_(graphics.US)
+            append += parse_print(line)
         elif line.startswith('ASM'):
             append = parse_asm(line)
         elif line.startswith('FILL'):
             append = parse_fill(line, 1)
         elif line.startswith('ZFILL'):
             append = parse_fill(line, 0)
+        elif line.startswith('CLS'):
+            append = print_(STX + graphics.parse(line) + ETX)
         elif graphics.match(line):
-            append = print_(graphics.parse(line))
+            if context[-1] == CONTROL:
+                context += [OUTPUT, GRAPH]
+                append += print_(STX + graphics.GS)
+            elif context[-1] == TEXT:
+                context[-1] == GRAPH
+                append += print_(graphics.GS)
+            append += print_(graphics.parse(line))
+            #append = graphics.parse(line)
         elif line.startswith('ENDIF'):
             pass 
         elif line.startswith('END'):
