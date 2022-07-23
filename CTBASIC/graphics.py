@@ -40,9 +40,11 @@ def parse(line):
     a, b = [int(v) for v in COORDS.search(line[4:]).groups()]
     if line.startswith('PLOT'):
         plotpos = (a, b)
+        return tekpoint(a, b) * 2
         return GS + tekpoint(a, b) * 2 + US
     if line.startswith('DRAW'):
         x, y = plotpos
         plotpos = (x + a, y + b)
+        return tekpoint(x, y) + tekpoint(*plotpos)
         return GS + tekpoint(x, y) + tekpoint(*plotpos) + US
 
