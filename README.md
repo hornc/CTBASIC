@@ -26,3 +26,23 @@ Using ZX Spectrum BASIC as a rough starting point, and adding from other BASICs 
 
 See the [Command list](COMMANDS.md) for implemented and aspirational commands and syntax.
 
+
+### Example usage
+
+Compile Hello, World! example to cyclic tag:
+
+    ./CTBASIC.py examples/HELLOWORLD.BAS
+
+Use the included cyclic tag interpreter [ct.py](ct.py) to dispay output (input data = `1`):
+
+    ./ct.py <(./CTBASIC.py examples/HELLOWORLD.BAS) 1
+    Hello, World!
+
+Compile to arithmetic cyclic tag:
+
+    ./CTBASIC.py -tABCT examples/HELLOWORLD.BAS
+
+Compile to rule 110 'blocks':
+
+    ./CTBASIC.py -t110 examples/HELLOWORLD.BAS
+

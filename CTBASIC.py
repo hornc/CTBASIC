@@ -145,7 +145,7 @@ def abct(ct):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=ABOUT, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('source', help='CTBASIC source file to process', type=argparse.FileType('r'))
-    parser.add_argument('--target', '-t', help='Compile target: CT, BCT, ABCT', default='CT')
+    parser.add_argument('--target', '-t', help='Compile target: CT, BCT, ABCT, 110', default='CT')
     parser.add_argument('--debug', '-d', help='Turn on debug output', action='store_true')
     args = parser.parse_args()
 
