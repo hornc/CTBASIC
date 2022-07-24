@@ -154,6 +154,7 @@ class CTCompiler:
             elif line.startswith('BIN'):
                 if context[-1] != CONTROL:
                     context.pop()
+                    context.pop()
                     append += print_(ETX)
                     context[-1] == CONTROL
                 append += parse_bin(line)
