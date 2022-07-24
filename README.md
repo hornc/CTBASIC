@@ -36,7 +36,8 @@ Compile Hello, World! example to cyclic tag:
 Use the included cyclic tag interpreter [ct.py](ct.py) to dispay output (input data = `1`):
 
     ./ct.py <(./CTBASIC.py examples/HELLOWORLD.BAS) 1
-    Hello, World!
+
+**output:** `Hello, World!`
 
 Compile to arithmetic cyclic tag:
 
