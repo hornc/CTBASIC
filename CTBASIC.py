@@ -14,7 +14,7 @@ import sys
 
 from CTBASIC.rule110 import rule110
 from CTBASIC import graphics
-
+from CTBASIC.graphics import Graphics
 
 STX = '\x02'
 ETX = '\x03'
@@ -128,12 +128,26 @@ class CTCompiler:
     def compile_(self):
         ct = ''
         context = [CONTROL]
+        gfx_block = None
         for line in self.source:
             line = line.strip()
             append = ''
             if line.startswith('REM') or not line:
                 continue
-            elif line.startswith('INPUT'):
+            if graphics.match(line):
+                if context[-1] == CONTROL:
+                    context += [OUTPUT, GRAPH]
+                    gfx_block = Graphics()
+                    #append += print_(STX + graphics.GS)
+                elif context[-1] == TEXT:
+                    context[-1] == GRAPH
+                    gfx_block = Graphics()
+                gfx_block.append(line)
+            elif gfx_block:
+                context.pop()
+                append += print_(STX + gfx_block.end() + ETX)
+                gfx_block = None
+            if line.startswith('INPUT'):
                 pass
             elif line.startswith('DATA'):
                 append = parse_data(line)
@@ -165,15 +179,6 @@ class CTCompiler:
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
                 append = print_(STX + graphics.parse(line) + ETX)
-            elif graphics.match(line):
-                if context[-1] == CONTROL:
-                    context += [OUTPUT, GRAPH]
-                    append += print_(STX + graphics.GS)
-                elif context[-1] == TEXT:
-                    context[-1] == GRAPH
-                    append += print_(graphics.GS)
-                append += print_(graphics.parse(line))
-                #append = graphics.parse(line)
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):

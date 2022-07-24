@@ -37,11 +37,33 @@ def parse(line):
         plotpos = (0, 0)
         return ESC + FF
 
-    a, b = [int(v) for v in COORDS.search(line[4:]).groups()]
-    if line.startswith('PLOT'):
-        plotpos = (a, b)
-        return tekpoint(a, b) * 2 + US + GS
-    if line.startswith('DRAW'):
-        x, y = plotpos
-        plotpos = (x + a, y + b)
-        return tekpoint(x, y) + tekpoint(*plotpos)
+
+class Graphics:
+    def __init__(self):
+        self.output = GS
+        self.plotpos = (0, 0)
+        self.last = None
+
+    def parse(self, line):
+        if line.startswith('CLS'):
+            self.plotpos = (0, 0)
+            self.output += ESC + FF
+
+        a, b = [int(v) for v in COORDS.search(line[4:]).groups()]
+        if line.startswith('PLOT'):
+            if self.last == 'PLOT':
+                self.output += tekpoint(*self.plotpos) + US + GS
+            self.plotpos = (a, b)
+            self.output += tekpoint(a, b)
+            self.last = 'PLOT'
+        if line.startswith('DRAW'):
+            x, y = self.plotpos
+            self.plotpos = (x + a, y + b)
+            self.output += tekpoint(*self.plotpos)
+            self.last = 'DRAW'
+
+    def append(self, line):
+        self.parse(line)
+
+    def end(self):
+        return self.output
