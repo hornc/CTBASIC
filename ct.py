@@ -26,7 +26,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=ABOUT)
     parser.add_argument('source', help='CT source file to process.', type=argparse.FileType('r'))
     parser.add_argument('input', help='Input (binary string). Defaults to "1".', nargs='?', default='1')
-    parser.add_argument('--debug', '-d', help='Datastring output.', action='store_true', default=False)
+    parser.add_argument('--debug', '-d', help='Program-string and Data-string output (tab separated).', action='store_true', default=False)
     args = parser.parse_args()
 
     datastring = args.input
@@ -35,6 +35,8 @@ if __name__ == '__main__':
     pos = 0
     while len(datastring):
         c = code[pos]
+        if args.debug:
+            print('\t'.join([code[pos:].strip() + code[:pos], datastring]))
         pos = (pos + 1) % len(code)
         if c not in CT:
             continue
@@ -43,7 +45,5 @@ if __name__ == '__main__':
         elif datastring[0] == '1':
             datastring += c
             o = output(datastring)
-            if o:
+            if o and not args.debug:
                 print(o, end='', flush=True)
-        if args.debug:
-            print(datastring)
