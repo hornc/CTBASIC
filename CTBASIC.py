@@ -140,7 +140,7 @@ class CTCompiler:
                     gfx_block = Graphics()
                     #append += print_(STX + graphics.GS)
                 elif context[-1] == TEXT:
-                    context[-1] == GRAPH
+                    context[-1] = GRAPH
                     gfx_block = Graphics()
                 gfx_block.append(line)
             elif gfx_block:
@@ -154,22 +154,21 @@ class CTCompiler:
             elif line.startswith('BIN'):
                 if context[-1] != CONTROL:
                     context.pop()
-                    context.pop()
                     append += print_(ETX)
-                    context[-1] == CONTROL
+                    context[-1] = CONTROL
                 append += parse_bin(line)
             elif line.startswith('CLEAR'):
                 if context[-1] != CONTROL:
                     context.pop()
                     append += print_(ETX)
-                    context[-1] == CONTROL
+                    context[-1] = CONTROL
                 append += parse_clear(line)
             elif line.startswith('PRINT'):
                 if context[-1] == CONTROL:
                     context += [OUTPUT, TEXT]
                     append += print_(STX)
                 elif context[-1] == GRAPH:
-                    context[-1] == TEXT
+                    context[-1] = TEXT
                     append += print_(graphics.US)
                 append += parse_print(line)
             elif line.startswith('ASM'):
@@ -179,7 +178,10 @@ class CTCompiler:
             elif line.startswith('ZFILL'):
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
-                append = print_(STX + graphics.parse(line) + ETX)
+                if context[-1] == CONTROL:
+                    context += [OUTPUT, TEXT]
+                    append += print_(STX)
+                append += print_(graphics.parse(line))
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):

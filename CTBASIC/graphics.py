@@ -1,6 +1,7 @@
 import re
 
 MATCH = re.compile(r'PLOT|DRAW|CLS')
+MATCH = re.compile(r'PLOT|DRAW')
 COORDS = re.compile(r'(-?\d+)\s*,\s*(-?\d+)')
 
 plotpos = (0, 0)
