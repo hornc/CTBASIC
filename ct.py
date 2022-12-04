@@ -24,9 +24,9 @@ def output(s):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=ABOUT)
-    parser.add_argument('source', help='CT source file to process', type=argparse.FileType('r'))
-    parser.add_argument('input', help='Input (binary)', default='1')
-    parser.add_argument('--debug', '-d', help='Datastring output', action='store_true', default=False)
+    parser.add_argument('source', help='CT source file to process.', type=argparse.FileType('r'))
+    parser.add_argument('input', help='Input (binary string). Defaults to "1".', nargs='?', default='1')
+    parser.add_argument('--debug', '-d', help='Datastring output.', action='store_true', default=False)
     args = parser.parse_args()
 
     datastring = args.input
