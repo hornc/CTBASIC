@@ -46,5 +46,5 @@ PRINT "* "
 DATA 1
 CLEAR 1
 
-REM Make sure we clear the entire maximun possible datastring up to this point to halt
+REM Make sure we clear the entire maximum possible datastring up to this point to halt
 CLEAR 500
