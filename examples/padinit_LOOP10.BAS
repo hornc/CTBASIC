@@ -1,6 +1,4 @@
 REM Loop 10 times, printing an asterisk followed by a space each time.
-REM Currently does not terminate cleanly.
-
 
 REM INIT:
 REM Pad every post-end flag with 41 bits which are cleared every loop
