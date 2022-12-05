@@ -1,6 +1,6 @@
 REM Loop 10 times, printing an asterisk followed by a space each time.
 
-REM State: init, output, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10A
+REM State: init, output, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10
 REM Program loop:
 REM   Destructively read state, fixed width output, append next state, clear all current state, clear last output. 
 
