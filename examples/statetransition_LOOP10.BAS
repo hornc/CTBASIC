@@ -9,11 +9,7 @@ REM INIT:
   CLEAR 1
 
 REM OUTPUT:
-  REM Start of text (STX, ASCII 02)
-  DATA 1, CHR$(02), 0
-  DATA 1, "*", 0, 1, " ", 0
-  REM End of text (ETX, ASCII 03)
-  DATA 1, CHR$(03), 0
+  PRINT "* "
   CLEAR 1
 
 REM STATE TRANSITIONS:
