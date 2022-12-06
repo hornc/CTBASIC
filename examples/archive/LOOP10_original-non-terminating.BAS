@@ -1,7 +1,6 @@
 REM Loop 10 times, printing an asterisk followed by a space each time.
 REM Currently does not terminate cleanly.
 
-
 REM INIT:
   BIN  110
   BIN 0010 0010 0010 0010 0010 0010 0010 0010 
@@ -16,7 +15,6 @@ REM START string output:
 REM MAIN BLOCK, output:
   DATA 1, "*", 0, 1, " ", 0
   CLEAR 1
-
 
 REM END string output:
   REM Newline (ASCII 10)
