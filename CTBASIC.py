@@ -143,7 +143,7 @@ class CTCompiler:
                     context[-1] = GRAPH
                     gfx_block = Graphics()
                 gfx_block.append(line)
-            elif gfx_block:
+            elif gfx_block:  # Graphics block completed; append it to output
                 context.pop()
                 append += print_(STX + gfx_block.end() + ETX)
                 gfx_block = None
@@ -160,17 +160,14 @@ class CTCompiler:
             elif line.startswith('CLEAR'):
                 if context[-1] != CONTROL:
                     context.pop()
-                    append += print_(ETX)
                     context[-1] = CONTROL
                 append += parse_clear(line)
             elif line.startswith('PRINT'):
                 if context[-1] == CONTROL:
-                    context += [OUTPUT, TEXT]
-                    append += print_(STX)
+                    append += print_(STX) + parse_print(line) + print_(ETX)
                 elif context[-1] == GRAPH:
                     context[-1] = TEXT
-                    append += print_(graphics.US)
-                append += parse_print(line)
+                    append += print_(graphics.US) + parse_print(line)
             elif line.startswith('ASM'):
                 append = parse_asm(line)
             elif line.startswith('FILL'):
