@@ -1,12 +1,13 @@
 REM Test Tek4010 animation
-REM Uses CLS command
+REM Uses CTBASIC graphics commands
 
 PRINT "Tektronix 4010 animation in bitwise cyclic tag."
 BIN 1
 CLEAR 491
 
 REM Vertical line
-PRINT CHR$(29) ")b0@/j0@" CHR$(31)
+PLOT 500, 500
+DRAW 0, -200
 BIN 1
 CLEAR 121
 
@@ -19,7 +20,8 @@ BIN 1
 CLEAR 491
 
 REM Horizontal line
-PRINT CHR$(29) ",f,R,f3N" CHR$(31)
+PLOT 400, 400
+DRAW 200, 0
 BIN 1
 CLEAR 121
 
