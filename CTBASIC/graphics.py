@@ -17,7 +17,7 @@ ANSI_CLEAR = f'{ESC}[J'
 RIS = f'{ESC}c'  # ANSI control Reset to Initial State (does not work on TEK4010)
 CLS_TEK = f'{ESC}{FF}'  # Tektronix 4010 clear screen
 CLS_ANSI = f'{ANSI_HOME}{ANSI_CLEAR}'  # ANSI control clear screen
-CLS_BOTH = f'{RIS}{ESC}{FF}{CAN}'
+CLS_BOTH = f'{RIS}{ESC}{FF}{CAN}'  # 5 bytes long
 CLS = CLS_BOTH
 
 
