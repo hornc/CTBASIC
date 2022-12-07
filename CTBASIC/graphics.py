@@ -1,10 +1,8 @@
 import re
 
-MATCH = re.compile(r'PLOT|DRAW|CLS')
+
 MATCH = re.compile(r'PLOT|DRAW')
 COORDS = re.compile(r'(-?\d+)\s*,\s*(-?\d+)')
-
-plotpos = (0, 0)
 
 # ASCII Character codes, and Tektronix 401x effect.
 FF = chr(12)   # As second character after ESC: clear screen.
