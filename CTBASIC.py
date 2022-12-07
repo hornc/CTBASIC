@@ -176,9 +176,8 @@ class CTCompiler:
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
                 if context[-1] == CONTROL:
-                    context += [OUTPUT, TEXT]
                     append += print_(STX)
-                append += print_(graphics.parse(line))
+                append += print_(graphics.CLS)
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):

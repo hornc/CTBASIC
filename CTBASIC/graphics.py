@@ -12,6 +12,16 @@ ESC = chr(27)  # Terminal "arming" character.
 GS = chr(29)   # Sets terminal to Graph Mode.
 US = chr(31)   # Resets terminal from Graph to Alpha Mode.
 
+# Character and control codes used for clearing screen in various terminal modes:
+CAN = chr(24)  # ASCII cancel, used as a NOP character in the combined ANSI control / Tek4010 CLS
+ANSI_HOME = '[H'
+ANSI_CLEAR = '[J'
+CLS_TEK = f'{ESC}{FF}'  # Tektronix 4010 clear screen
+CLS_ANSI1 = f'{ESC}{ANSI_HOME}{ESC}{ANSI_CLEAR}'  # ANSI control clear 1
+CLS_ANSI2 = f'{ESC}c'  # ANSI control clear 2
+CLS_BOTH = f'{ESC}c{ESC}{FF}{CAN}'
+CLS = CLS_BOTH
+
 
 def match(line):
     return bool(MATCH.match(line))
@@ -32,13 +42,6 @@ def tekpoint(x, y):
     return ''.join([chr(v) for v in [hY + 32, lY + 96, hX + 32, lX + 64]])
 
 
-def parse(line):
-    global plotpos
-    if line.startswith('CLS'):
-        plotpos = (0, 0)
-        return ESC + FF
-
-
 class Graphics:
     def __init__(self):
         self.output = GS
@@ -48,7 +51,7 @@ class Graphics:
     def parse(self, line):
         if line.startswith('CLS'):
             self.plotpos = (0, 0)
-            self.output += ESC + FF
+            self.output += CLS
 
         a, b = [int(v) for v in COORDS.search(line[4:]).groups()]
         if line.startswith('PLOT'):
