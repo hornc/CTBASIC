@@ -178,7 +178,7 @@ class CTCompiler:
             elif line.startswith('CLS'):
                 append += print_(STX + graphics.CLS + ETX)
             elif audio.match(line):
-                append = print_(audio.parse(line))
+                append = print_(STX + audio.parse(line) + ETX)
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):
