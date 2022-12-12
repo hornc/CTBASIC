@@ -1,7 +1,7 @@
 import re
 
 
-MATCH = re.compile(r'PLOT|DRAW')
+MATCH = re.compile(r'PLOT|DRAW|INK')
 COORDS = re.compile(r'(-?\d+)\s*,\s*(-?\d+)')
 
 # ASCII Character codes, and Tektronix 401x effect.
@@ -46,23 +46,32 @@ class Graphics:
         self.plotpos = (0, 0)
         self.last = None
 
+    def coords(self, line):
+        """Returns a, b coords."""
+        return [int(v) for v in COORDS.search(line[4:]).groups()]
+
     def parse(self, line):
         if line.startswith('CLS'):
             self.plotpos = (0, 0)
             self.output += CLS
 
-        a, b = [int(v) for v in COORDS.search(line[4:]).groups()]
         if line.startswith('PLOT'):
+            a, b = self.coords(line)
             if self.last == 'PLOT':
                 self.output += tekpoint(*self.plotpos) + US + GS
             self.plotpos = (a, b)
             self.output += tekpoint(a, b)
             self.last = 'PLOT'
-        if line.startswith('DRAW'):
+        elif line.startswith('DRAW'):
+            a, b = self.coords(line)
             x, y = self.plotpos
             self.plotpos = (x + a, y + b)
             self.output += tekpoint(*self.plotpos)
             self.last = 'DRAW'
+        elif line.startswith('INK'):
+            c = int(line[3:].strip())
+            inks = '`abcdhijkl'
+            self.output += f'{ESC}{inks[c]}'
 
     def append(self, line):
         self.parse(line)
