@@ -1,6 +1,6 @@
 REM Display the various line styles.
 
-INK 0
+REM Draw zig-zag lines in different INKs
 PLOT 50, 400
 DRAW 50, 250
 INK 1
@@ -17,15 +17,14 @@ INK 6
 DRAW 50, 250
 INK 7
 DRAW 50, -250
+
+REM Some more normal mode zig-zags
+REM for potentially testing other drawing styles later.
 INK 0
 DRAW 50, 250
-
 DRAW 50, -250
-
 DRAW 50, 250
-
 DRAW 50, -250
-
 DRAW 50, 250
 
 CLEAR 10 
