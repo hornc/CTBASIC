@@ -14,18 +14,17 @@ from CTBASIC.graphics import CLS_TEK as CLS
 CT = '01;'
 STX = '1000000100'
 ETX = '1000000110'
-OUTPUT = re.compile(STX + r'(1[01]{8}0)*' + ETX + r'$')
-R_STX = STX[::-1]
-R_ETX = ETX[::-1]
-R_OUTPUT = re.compile(r'^' + R_ETX + r'(0[01]{8}1)*?' + R_STX)
+# This regex matches encoded output on the _reversed_ datastring
+# to get lazy matching from the right end of the datastring.
+R_OUTPUT = re.compile(r'^' + ETX[::-1] + r'(0[01]{8}1)*?' + STX[::-1])
 
 
 def output(s):
     if not s.endswith(ETX):
         return
-    m = R_OUTPUT.search(s[::-1])
+    m = R_OUTPUT.search(s[::-1])  # matching on the _reversed_ datastring
     if m:
-        t = m.group(0)[-11:9:-1]
+        t = m.group(0)[-11:9:-1]  # reverse the smallest match so it is in the correct bit order again
         return ''.join([chr(int(t[i+1:i+9], 2)) for i in range(0, len(t), 10)])
 
 
