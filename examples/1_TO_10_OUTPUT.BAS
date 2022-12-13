@@ -9,10 +9,6 @@ ZFILL 10
 
 PRINT "* "
 
-REM Need to add 1 bit of offset to break the output start/stop bit alignment,
-REM otherwise all previous output is displayed every time
-DATA 1
-
 REM Decrement our unary counter by one
 CLEAR 1
 

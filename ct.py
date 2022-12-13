@@ -15,15 +15,17 @@ CT = '01;'
 STX = '1000000100'
 ETX = '1000000110'
 OUTPUT = re.compile(STX + r'(1[01]{8}0)*' + ETX + r'$')
+R_STX = STX[::-1]
+R_ETX = ETX[::-1]
+R_OUTPUT = re.compile(r'^' + R_ETX + r'(0[01]{8}1)*?' + R_STX)
 
 
 def output(s):
     if not s.endswith(ETX):
         return
-    last = s.rfind(STX)
-    m = OUTPUT.search(s[last:])
+    m = R_OUTPUT.search(s[::-1])
     if m:
-        t = m.group(0)[10:-10]
+        t = m.group(0)[-11:9:-1]
         return ''.join([chr(int(t[i+1:i+9], 2)) for i in range(0, len(t), 10)])
 
 
