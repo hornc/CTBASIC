@@ -22,6 +22,7 @@ ASM_CT = re.compile(r'^[01;]*$')
 BIN = re.compile(r'^[01]*$')
 
 PRINTLINE = re.compile(r'("[^"]*"|CHR\$\(\d+\))')
+SPLIT_SENTENCES = re.compile(r'\s*(REM.*|[^:]+(?:"[^"]*")|[^:]+)\s*')  # colon delimited sentences on one line
 
 # Context constants:
 CONTROL = 0
@@ -110,8 +111,15 @@ def parse_fill(line, fill):
 
 class CTCompiler:
     def __init__(self, lines):
-        self.source = lines
+        self.source = []
+        self.preprocess(lines)
         self.ct = None
+
+    def preprocess(self, lines):
+        """Perform line and sentence based pre-processing."""
+        for line in lines:
+            sentences = SPLIT_SENTENCES.findall(line)
+            self.source += sentences
 
     def compile(self, target='CT'):
         if not self.ct:
