@@ -47,7 +47,7 @@ class Graphics:
         self.last = None
 
     def coords(self, line):
-        """Returns a, b coords."""
+        """Returns a tuple [a, b] of statement arguments."""
         return [int(v) for v in COORDS.search(line[4:]).groups()]
 
     def parse(self, line):
