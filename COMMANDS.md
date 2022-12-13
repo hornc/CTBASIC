@@ -35,7 +35,25 @@ Completely consume datastring DATA to trigger the cyclic tag system halt conditi
 
 ## Graphics
 
-CTBASIC can produce Tektronix 401x graphical output using the following ZX Spectrum borrowed commands:
+CT-BASIC can produce Tektronix 401x graphical output using the following ZX Spectrum borrowed commands:
+
+### CLS
+Clear screen. Writes Tektronix 401x control sequence `ESC` + `FF`.
+
+### DRAW _Δx_, _Δy_
+Draws a line from the last pixel of the previous `PLOT` or `DRAW` using relative offsets.
+
+### INK _n_
+Sets the ink (foreground) colour of the line drawing pen.
+
+0. Normal (solid)
+1. Dotted
+2. Dot-dashed
+3. Short-dash
+4. Long-dash
+5. Defocused, normal
+6. Defocused, dotted
+7. Defocused, dot-dashed
 
 ### PLOT _x_, _y_
 Plots a point at absolute coordinate _x_, _y_.
@@ -43,9 +61,3 @@ Plots a point at absolute coordinate _x_, _y_.
 * _y_ range: 0–779.
 
 `0, 0` represents the bottom-left corner of the screen.
-
-### DRAW _Δx_, _Δy_
-Draws a line from the last pixel of the previous `PLOT` or `DRAW` using relative offsets.
-
-### CLS
-Clear screen. Writes Tektronix 401x control sequence `ESC` + `FF`.
