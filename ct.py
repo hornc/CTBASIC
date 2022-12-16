@@ -12,19 +12,23 @@ from time import sleep
 from CTBASIC.graphics import CLS_TEK as CLS
 
 CT = '01;'
-OUTPUT = re.compile(r'1000000100(1[01]{8}0)*1000000110$')
+STX = '1000000100'
+ETX = '1000000110'
+# This regex matches encoded output on the _reversed_ datastring
+# to get lazy matching from the right end of the datastring.
+R_OUTPUT = re.compile(r'^' + ETX[::-1] + r'(0[01]{8}1)*?' + STX[::-1])
 
 
 def output(s):
-    if not s.endswith('1000000110'):
-         return
-    m = OUTPUT.search(s)
+    if not s.endswith(ETX):
+        return
+    m = R_OUTPUT.search(s[::-1])  # matching on the _reversed_ datastring
     if m:
-        t = m.group(0)[10:-10]
+        t = m.group(0)[-11:9:-1]  # reverse the smallest match so it is in the correct bit order again
         return ''.join([chr(int(t[i+1:i+9], 2)) for i in range(0, len(t), 10)])
 
 
-if __name__ == '__main__':
+def main(args=None):
     parser = argparse.ArgumentParser(description=ABOUT)
     parser.add_argument('source', help='CT source file to process.', type=argparse.FileType('r'))
     parser.add_argument('input', help='Input (binary string). Defaults to "1".', nargs='?', default='1')
@@ -52,3 +56,7 @@ if __name__ == '__main__':
                 if args.hold and CLS in o:
                     sleep(args.hold / 1000)
                 print(o, end='', flush=True)
+
+
+if __name__ == '__main__':
+    main()
