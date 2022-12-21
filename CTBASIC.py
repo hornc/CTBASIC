@@ -21,8 +21,8 @@ ETX = '\x03'
 ASM_CT = re.compile(r'^[01;]*$')
 BIN = re.compile(r'^[01]*$')
 
-PRINTLINE = re.compile(r'("[^"]*"|CHR\$\(\d+\))')
-SPLIT_SENTENCES = re.compile(r'\s*(REM.*|[^:]+(?:"[^"]*")|[^:]+)\s*')  # colon delimited sentences on one line
+PRINTLINE = re.compile(r'("[^"]*"|CHR\$\s*\d+)')
+SPLIT_SENTENCES = re.compile(r'\s*(REM.*|[^:]+(?:(?:[^:]*"[^"]*"[^:]*)+)|[^:]+)\s*')  # colon delimited sentences on one line
 
 # Context constants:
 CONTROL = 0
@@ -37,7 +37,7 @@ def parse_clear(line):
 
 
 def chr_(command):
-    """CHR$()."""
+    """CHR$ n"""
     return chr(int(re.search(r'\d+', command)[0]))
 
 
@@ -46,7 +46,7 @@ def clear(n):
 
 
 def parse_data(line):
-    re_data = re.compile(r'"[^"]*"|CHR\$\(\d+\)|\d+')
+    re_data = re.compile(r'"[^"]*"|CHR\$\s*\d+|\d+')
     r = data(re_data.findall(line))
     return r
 
@@ -73,6 +73,7 @@ def data(lst):
 
 def parse_print(line):
     s = ''
+    line = line.replace('+', '')  # TODO: Temporary!
     for v in PRINTLINE.split(line[6:]):
         v = v.strip()
         if not v:
