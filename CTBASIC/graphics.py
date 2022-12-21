@@ -57,7 +57,7 @@ class Graphics:
 
         if line.startswith('PLOT'):
             a, b = self.coords(line)
-            if self.last == 'PLOT':
+            if self.last in ('PLOT', 'DRAW'):
                 self.output += tekpoint(*self.plotpos) + US + GS
             self.plotpos = (a, b)
             self.output += tekpoint(a, b)
