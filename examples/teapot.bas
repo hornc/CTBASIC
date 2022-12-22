@@ -3,11 +3,14 @@ REM Testing...
 
 PRINT "Utah teapot X, Z patch corners:"
 
+REM Rim
 PLOT 691, 624
 DRAW -179, 0
 DRAW 0, 0
 DRAW 192, 0
 DRAW -13, 0
+
+REM Body
 PLOT 704, 624
 DRAW -192, 0
 DRAW 0, -147
@@ -18,6 +21,8 @@ DRAW -256, 0
 DRAW 0, -73
 DRAW 192, 0
 DRAW 64, 73
+
+REM Lid
 PLOT 512, 697
 DRAW 0, 0
 DRAW 0, -44
@@ -28,6 +33,8 @@ DRAW -25, 0
 DRAW 0, -29
 DRAW 166, 0
 DRAW -141, 29
+
+REM Handle
 PLOT 307, 587
 DRAW 13, 22
 DRAW -192, -44
@@ -38,6 +45,8 @@ DRAW -38, 0
 DRAW 140, -117
 DRAW -12, 29
 DRAW -90, 88
+
+REM Spout
 PLOT 729, 528
 DRAW 0, -80
 DRAW 205, 176
