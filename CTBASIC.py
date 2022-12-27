@@ -23,6 +23,7 @@ BIN = re.compile(r'^[01]*$')
 
 PRINTLINE = re.compile(r'("[^"]*"|CHR\$\s*\d+)')
 SPLIT_SENTENCES = re.compile(r'\s*(REM.*|[^:]+(?:(?:[^:]*"[^"]*"[^:]*)+)|[^:]+)\s*')  # colon delimited sentences on one line
+LINE_NUMS = re.compile(r'^[0-9]+\s*')
 
 # Context constants:
 CONTROL = 0
@@ -120,6 +121,7 @@ class CTCompiler:
     def preprocess(self, lines):
         """Perform line and sentence based pre-processing."""
         for line in lines:
+            line = LINE_NUMS.sub('', line)
             sentences = SPLIT_SENTENCES.findall(line)
             self.source += sentences
 
