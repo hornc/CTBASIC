@@ -188,7 +188,10 @@ class CTCompiler:
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):
-                append = clear(10)
+                if context[-1] != CONTROL:
+                    context.pop()
+                    context[-1] = CONTROL
+                append += clear(10)
             ct += str(append)
         self.ct = ct
 
