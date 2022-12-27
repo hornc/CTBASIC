@@ -115,12 +115,24 @@ class CTCompiler:
         self.source = []
         self.preprocess(lines)
         self.ct = None
+        self.context = [CONTROL]
 
     def preprocess(self, lines):
         """Perform line and sentence based pre-processing."""
         for line in lines:
             sentences = SPLIT_SENTENCES.findall(line)
             self.source += sentences
+
+    def context_transition(self):
+        """ Transition to CONTROL context.
+            Returns True if a transition was made.
+        """
+        if self.context[-1] != CONTROL:
+            self.context.pop()
+            self.context[-1] = CONTROL
+            return True
+        else:
+            return False
 
     def compile(self, target='CT'):
         if not self.ct:
@@ -136,7 +148,6 @@ class CTCompiler:
 
     def compile_(self):
         ct = ''
-        context = [CONTROL]
         gfx_block = None
         for line in self.source:
             line = line.strip()
@@ -144,16 +155,16 @@ class CTCompiler:
             if line.startswith('REM') or not line:
                 continue
             if graphics.match(line):
-                if context[-1] == CONTROL:
-                    context += [OUTPUT, GRAPH]
+                if self.context[-1] == CONTROL:
+                    self.context += [OUTPUT, GRAPH]
                     gfx_block = Graphics()
                     #append += print_(STX + graphics.GS)
-                elif context[-1] == TEXT:
-                    context[-1] = GRAPH
+                elif self.context[-1] == TEXT:
+                    self.context[-1] = GRAPH
                     gfx_block = Graphics()
                 gfx_block.append(line)
             elif gfx_block:  # Graphics block completed; append it to output
-                context.pop()
+                self.context.pop()
                 append += print_(STX + gfx_block.end() + ETX)
                 gfx_block = None
             if line.startswith('INPUT'):
@@ -161,21 +172,17 @@ class CTCompiler:
             elif line.startswith('DATA'):
                 append = parse_data(line)
             elif line.startswith('BIN'):
-                if context[-1] != CONTROL:
-                    context.pop()
-                    append += print_(ETX)
-                    context[-1] = CONTROL
+                if self.context_transition():
+                    append += print_(ETX)  # TODO: why isn't this occurring every OUTPUT to CONTROL transition?
                 append += parse_bin(line)
             elif line.startswith('CLEAR'):
-                if context[-1] != CONTROL:
-                    context.pop()
-                    context[-1] = CONTROL
+                self.context_transition()
                 append += parse_clear(line)
             elif line.startswith('PRINT'):
-                if context[-1] == CONTROL:
+                if self.context[-1] == CONTROL:
                     append += print_(STX) + parse_print(line) + print_(ETX)
                 elif context[-1] == GRAPH:
-                    context[-1] = TEXT
+                    self.context[-1] = TEXT
                     append += print_(graphics.US) + parse_print(line)
             elif line.startswith('ASM'):
                 append = parse_asm(line)
@@ -188,9 +195,7 @@ class CTCompiler:
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):
-                if context[-1] != CONTROL:
-                    context.pop()
-                    context[-1] = CONTROL
+                self.context_transition()
                 append += clear(10)
             ct += str(append)
         self.ct = ct
