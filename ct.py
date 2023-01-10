@@ -33,11 +33,14 @@ def main(args=None):
     parser.add_argument('source', help='CT source file to process.', type=argparse.FileType('r'))
     parser.add_argument('input', help='Input (binary string). Defaults to "1".', nargs='?', default='1')
     parser.add_argument('--debug', '-d', help='Program-string and Data-string output (tab separated).', action='store_true', default=False)
+    parser.add_argument('--interactive', '-i', help='Prompt for input on empty datastring. Continue on non-empty input.', action='store_true', default=False)
     parser.add_argument('--hold', help='Hold delay before clearing screen (CLS), in ms.', type=float, default=0)
+
     args = parser.parse_args()
 
     datastring = args.input
     code = args.source.read()
+    interactive = args.interactive
 
     pos = 0
     while len(datastring):
@@ -56,6 +59,8 @@ def main(args=None):
                 if args.hold and CLS in o:
                     sleep(args.hold / 1000)
                 print(o, end='', flush=True)
+        if interactive and not datastring:
+            datastring = input('> ')
 
 
 if __name__ == '__main__':
