@@ -74,7 +74,8 @@ def data(lst):
 
 def parse_print(line):
     s = ''
-    line = line.replace('+', '')  # TODO: Temporary!
+    newline = not line.endswith(';')
+    line = line.replace('+', '').replace(';', '')  # TODO: Temporary!
     for v in PRINTLINE.split(line[6:]):
         v = v.strip()
         if not v:
@@ -83,6 +84,8 @@ def parse_print(line):
             s += chr_(v)
         else:
             s += v.strip('"')
+        if newline:
+            s += '\n'
     return print_(s)
 
 

@@ -8,13 +8,13 @@ PRINT "========="
 PRINT "Let's play a game!"
 PRINT "I have a coin, can you guess the result if I flip it?"
 BIN 1
-CLEAR 971
+CLEAR 1011
 
 
 REM Game loop:
 PRINT "To guess HEADS enter: 10"
 PRINT "To guess TAILS enter: 01"
-CLEAR 521
+CLEAR 541
 
 
 PRINT "Ok, I'll flip the coin now...."
