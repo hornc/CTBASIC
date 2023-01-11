@@ -1,7 +1,7 @@
 REM Test Tek4010 animation
 REM Uses CTBASIC graphics commands
 
-PRINT "Tektronix 4010 animation in bitwise cyclic tag."
+PRINT "Tektronix 4010 animation in bitwise cyclic tag.";
 BIN 1
 CLEAR 491
 
@@ -15,7 +15,7 @@ CLS
 BIN 1
 CLEAR 71
 
-PRINT "Tektronix 4010 animation in bitwise cyclic tag."
+PRINT "Tektronix 4010 animation in bitwise cyclic tag.";
 BIN 1
 CLEAR 491
 
