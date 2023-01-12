@@ -1,0 +1,13 @@
+REM Testing PRINT separators
+
+PRINT "Hello"'''"World"
+
+PRINT "HELLO" + "WORLD"
+PRINT "HELLO"; "WORLD"
+PRINT "HELLO" , "WORLD"
+PRINT "HELLO" ,, "WORLD"
+PRINT "HELLO" ', "WORLD"
+PRINT "HELLO",;
+PRINT "WORLD" + CHR$ 33
+
+END

@@ -21,7 +21,7 @@ ETX = '\x03'
 ASM_CT = re.compile(r'^[01;]*$')
 BIN = re.compile(r'^[01]*$')
 
-PRINTLINE = re.compile(r'("[^"]*"|CHR\$\s*\d+)')
+PRINTLINE = re.compile(r'("[^"]*"|[,;\'\+])')
 SPLIT_SENTENCES = re.compile(r'\s*(REM.*|[^:]+(?:(?:[^:]*"[^"]*"[^:]*)+)|[^:]+)\s*')  # colon delimited sentences on one line
 LINE_NUMS = re.compile(r'^[0-9]+\s*')
 
@@ -75,17 +75,20 @@ def data(lst):
 def parse_print(line):
     s = ''
     newline = not line.endswith(';')
-    line = line.replace('+', '').replace(';', '')  # TODO: Temporary!
     for v in PRINTLINE.split(line[6:]):
         v = v.strip()
-        if not v:
+        if not v or v in '+;':  # empty, or concat
             continue
-        if v.startswith('CHR$'):
+        if v == ',':
+            s += '\t'
+        elif v == "'":
+            s += '\n'
+        elif v.startswith('CHR$'):
             s += chr_(v)
         else:
             s += v.strip('"')
-        if newline:
-            s += '\n'
+    if newline:
+        s += '\n'
     return print_(s)
 
 
