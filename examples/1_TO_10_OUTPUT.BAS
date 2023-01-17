@@ -7,37 +7,37 @@ REM OUTPUT: "* * * * *"
 REM Pad input to be at least 10 bits
 ZFILL 10
 
-PRINT "* "
+PRINT "* ";
 
 REM Decrement our unary counter by one
 CLEAR 1
 
 REM Do this up to nine more times:
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
-PRINT "* "
+PRINT "* ";
 CLEAR 1
 
 REM Make sure we clear the entire maximum possible datastring up to this point to halt
