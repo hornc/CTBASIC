@@ -43,6 +43,7 @@ def main(args=None):
     interactive = args.interactive
 
     pos = 0
+    clear = buffer = ''
     while len(datastring):
         c = code[pos]
         if args.debug:
@@ -57,8 +58,15 @@ def main(args=None):
             o = output(datastring)
             if o and not args.debug:
                 if args.hold and CLS in o:
-                    sleep(args.hold / 1000)
-                print(o, end='', flush=True)
+                    if buffer:
+                        print(clear + buffer, end='', flush=True)
+                        sleep(args.hold / 1000)
+                        buffer = ''
+                    clear = o
+                elif args.hold:
+                    buffer += o
+                else:
+                    print(o, end='', flush=True)
         if interactive and not datastring:
             datastring = input('> ')
 
