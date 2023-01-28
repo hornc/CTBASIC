@@ -200,6 +200,8 @@ class CTCompiler:
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
                 append += print_(STX + graphics.CLS + ETX)
+                if self.context[-1] == OUTPUT:
+                    self.context += [TEXT]
             elif line.startswith('ENDIF'):
                 pass
             elif line.startswith('END'):
