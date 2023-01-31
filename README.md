@@ -65,7 +65,7 @@ See the [Command list](COMMANDS.md) for implemented and aspirational commands an
 
 ### Example usage
 
-Compile Hello, World! example to cyclic tag:
+Compile [Hello, World! example](examples/HELLOWORLD.BAS) to cyclic tag:
 
     ./CTBASIC.py examples/HELLOWORLD.BAS
 
@@ -83,3 +83,24 @@ Compile to rule 110 'blocks':
 
     ./CTBASIC.py -t110 examples/HELLOWORLD.BAS
 
+Compile and run a [simple loop demonstration](examples/LOOP10.BAS):
+
+    ./ct.py <(./CTBASIC.py examples/LOOP10.BAS)
+
+Compile and run a standard terminal [character 'animation' example](examples/ANIM_FRAME_TEST.BAS):
+
+    ./ct.py --hold 300 <(./CTBASIC.py examples/ANIM_FRAME_TEST.BAS)
+
+Compile and run an (unary) [input example](examples/1_TO_10_OUTPUT.BAS)
+
+    ./ct.py <(./CTBASIC.py examples/1_TO_10_OUTPUT.BAS) 11111111
+
+(vary the number of `1`s as input between 1 and 10)
+
+Using [xterm](https://invisible-island.net/xterm/), compile and run a [static graphics example](examples/INK_LINES.BAS)
+
+    xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/INK_LINES.BAS ) 1"
+
+Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
+
+    xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
