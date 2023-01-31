@@ -4,10 +4,10 @@ CTBASIC is a compiled [Sinclair BASIC](https://en.wikipedia.org/wiki/Sinclair_BA
 
 It compiles a reduced dialect of BASIC into one of the following compilation targets:
 
-* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag)
-* [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) (Bitwise Cyclic Tag)
-* [ABCT](https://github.com/hornc/abctag) (Arithmetic Bitwise Cyclic Tag)
-* [Rule 110](https://en.wikipedia.org/wiki/Rule_110), using the ["blocks of bits" construction developed and described by Matthew Cook](https://doi.org/10.4204/eptcs.1.4)
+* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag) -- a three symbol language `{0, 1, ;}`, or set of binary-string productions.
+* [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) (Bitwise Cyclic Tag) -- a two symbol language `{0, 1}` encoding the above.
+* [ABCT](https://github.com/hornc/abctag) (Arithmetic Bitwise Cyclic Tag) -- BCT encoded into a single integer.
+* [Rule 110](https://en.wikipedia.org/wiki/Rule_110) elementary cellular automaton, using the ["blocks of bits" construction developed and described by Matthew Cook](https://doi.org/10.4204/eptcs.1.4).
 
 This is an experimental project / work in progress. Details and usabilty are being worked out as features are added.
 
