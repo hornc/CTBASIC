@@ -17,7 +17,7 @@ The idea is to capture something of the early days of programming while using lo
 ### The Fantasy Console
 
 CTBASIC compiles to standard versions of the above cyclic-tag families, so any compiled program _will_ run on all of them.
-However, in order to provide some user feedback, the CTBASIC architecture assumes a particular set of output conventions, which distiguish a CTBASIC 'machine' from a plain cyclic-tag interpreter.
+However, in order to provide some user feedback, the CTBASIC architecture assumes a particular set of output conventions, which distinguish a CTBASIC 'machine' from a plain cyclic-tag interpreter.
 
 These differences _only_ apply to I/O, where the output conventions are side-effects (not affecting the underlying computation, and the input conventions only affect starting (and re-starting) states, so also don't affect the fundamental computational process.
 
@@ -25,11 +25,11 @@ The CTBASIC machine I/O conventions are as follows:
 
 1) Byte strings can be encoded and recognised within the datastring:
    * 8 bit bytes are encoded within a 10 bit dataframe with a start-bit `1` and end-bit `0`.
-   * A string is a series of 10-bit frames begining with the ASCII `STX` character (0x02), and terminated by the `ETX` character (0x03).
+   * A string is a series of 10-bit frames begining with the [ASCII C0](https://en.wikipedia.org/wiki/C0_and_C1_control_codes) `STX` character (0x02), and terminated by the `ETX` character (0x03).
    * When a valid string is completed, (i.e. the stop-bit `0` of the `ETX` is appended to the right of the datastring) the complete string is sent to output.
 
 2) Output is a serial byte-stream, with flexible destinations.
-   * The CTBASIC language has drawing commands which when compiled produce serial byte output that can be recongised by Tektronix 4010/4 compatible terminals.
+   * The CTBASIC language has drawing commands which when compiled produce serial byte output that can be recognised by [Tektronix 4010/4](https://en.wikipedia.org/wiki/Tektronix_4010) compatible terminals.
    * Non-graphical serial terminals are also intended to be supported for character output.
    * Other byte-based output targets are also a possibility (e.g. audio, serial input to other devices).
 
@@ -41,11 +41,11 @@ The CTBASIC machine I/O conventions are as follows:
 
 ### General cyclic-tag input considerations
 
-A standard feature of Cyclic Tag family of languages is that they require a non-empty, non-zero, data string to begin execution.
+A standard feature of Cyclic Tag family of languages is that they require a non-empty, non-zero, data string to begin (and continue) execution.
 
 If the initial data string is empty, or does not contain _any_ `1` symbols, a program _cannot possibly_ modify the data string, so no computation will occur.
 
-This means that for any CT family program to perform a computation, an appropriate input data string MUST be provided.
+This means that for any CT family program to perform a computation, an appropriate input data string _MUST_ be provided.
 At minimum, this input data string can be a single `1`. From this, a program can bootstrap any required data structure to allow it to accomplish its computation.
 
 Specifc user supplied variable input will need to be encoded in some fashion into the initial data string, the instructions for which will depend on the specific program being run.
