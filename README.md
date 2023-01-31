@@ -91,16 +91,20 @@ Compile and run a standard terminal [character 'animation' example](examples/ANI
 
     ./ct.py --hold 300 <(./CTBASIC.py examples/ANIM_FRAME_TEST.BAS)
 
-Compile and run an (unary) [input example](examples/1_TO_10_OUTPUT.BAS)
+Compile and run a (unary) [input example](examples/1_TO_10_OUTPUT.BAS):
 
     ./ct.py <(./CTBASIC.py examples/1_TO_10_OUTPUT.BAS) 11111111
 
 (vary the number of `1`s as input between 1 and 10)
 
-Using [xterm](https://invisible-island.net/xterm/), compile and run a [static graphics example](examples/INK_LINES.BAS)
+Using [xterm](https://invisible-island.net/xterm/), compile and run a [static graphics example](examples/INK_LINES.BAS):
 
     xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/INK_LINES.BAS ) 1"
 
 Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
 
     xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
+
+Use interactive mode to play a simple (cheating) [coin flip game](examples/coin_flip.bas):
+
+    ./ct.py --interactive <(./CTBASIC.py examples/coin_flip.bas) 1
