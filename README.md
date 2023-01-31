@@ -74,6 +74,7 @@ It is a fragile convention.
 
 See the [Command list](COMMANDS.md) for implemented and aspirational commands and syntax.
 
+See [`examples/`](examples/) for how the commands can be used together.
 
 ### Cyclic Tag Interpreter
 
