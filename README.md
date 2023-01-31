@@ -53,14 +53,31 @@ In general, there will need to be at least one `1` symbol for the program to hav
 Providing an input datastring begining with a `0` symbol will in general prevent a program from functioning correctly (unless the expected behaviour is "do nothing").
 
 
-### Cyclic Tag Interpreter
+### The CTBASIC language
 
-CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC programs behave as intended when compiled to the default Cyclic Tag dialect. It supports the input and output conventions, and will execute CTBASIC examples as intended (assuming correct mode flags and terminals are used).
+CTBASIC effectively provides ZX Spectrum BASIC style output macros to simplify forming output using the provided conventions.
+* `PRINT`, `CHR$`, `CLS`, `PLOT`, `DRAW`, and `INK` for output.
+* `BIN`, `DATA`, `FILL`, `ZFILL`, `ASM` for internal data.
 
+All control flow is provided by the underlying cyclic tag mechanism.
+
+Every command (output or memory writing) is conditional on there being a `1` at the leftmost bit of the current datastring.
+
+All `CLEAR` commands (removing 1 or more bits from the datastring) are _unconditional_.
+
+The entire program runs in an implicit loop until the datastring is empty.
+
+The `END` command does not immediately end the program, but is a alias for `CLEAR 10`, which clears the datastring frame by frame, which if _all_ data is correctly aligned on `0` stopbits, can allow the program to cycle as many times as needed to clear the entire datastring without triggering any further output or effects. This however requires careful planning, and is not guaranteed to occur cleanly otherwise.
+It is a fragile convention.
 
 ### Commands
 
 See the [Command list](COMMANDS.md) for implemented and aspirational commands and syntax.
+
+
+### Cyclic Tag Interpreter
+
+CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC programs behave as intended when compiled to the default Cyclic Tag dialect. It supports the input and output conventions, and will execute CTBASIC examples as intended (assuming correct mode flags and terminals are used).
 
 
 ### Example usage
