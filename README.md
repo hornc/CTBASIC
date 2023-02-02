@@ -99,6 +99,8 @@ CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC prog
 
     ./CTBASIC.py -tABCT examples/HELLOWORLD.BAS
 
+  * **output:** `2188296472577726911166636231243756842502740360147865646454687653848030097758545005123757741056578902`
+
 * Compile to rule 110 'blocks':
 
     ./CTBASIC.py -t110 examples/HELLOWORLD.BAS
@@ -117,13 +119,17 @@ CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC prog
 
   * Vary the number of `1`s as input between `1` and `1111111111` (10).
 
-* Using [xterm](https://invisible-island.net/xterm/), compile and run a [static graphics example](examples/INK_LINES.BAS):
+* Using [xterm](https://invisible-island.net/xterm/), compile and run a static graphics example: [2D Utah teapot](examples/teapot.bas):
 
-    xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/INK_LINES.BAS ) 1"
+    xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/teapot.bas  ) 1"
+
+<img alt="2D Utah teapot output" src="img/teapot.png" align="right />
 
 * Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
 
     xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
+
+<img alt="Rotating cube output" src="img/cube.gif" align="right />
 
 * Use interactive mode to play a simple (cheating) [coin flip game](examples/coin_flip.bas):
 
