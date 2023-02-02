@@ -1,5 +1,11 @@
 REM Utah Teapot
 
+REM Created using the original patch data shown at:
+REM https://www.sjbaker.org/wiki/index.php?title=The_History_of_The_Teapot
+REM Taking only the 2D X, and Z bezier patch corners,
+REM using a control point from the lid because it looks better,
+REM and scaling for the Tektronix 1024 x 780 display.
+
 PRINT "Utah teapot X, Z patch corners:"
 
 REM Rim
