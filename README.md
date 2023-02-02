@@ -4,9 +4,9 @@ CTBASIC is a compiled [Sinclair BASIC](https://en.wikipedia.org/wiki/Sinclair_BA
 
 It compiles a reduced dialect of BASIC into one of the following compilation targets:
 
-* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag) -- a three symbol language `{0, 1, ;}`, or set of bitstring productions.
-* [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) (Bitwise Cyclic Tag) -- a two symbol language `{0, 1}` encoding the above.
-* [ABCT](https://github.com/hornc/abctag) (Arithmetic Bitwise Cyclic Tag) -- BCT encoded into a single integer.
+* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag) — a three symbol language `{0, 1, ;}`, or set of bitstring productions.
+* [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) (Bitwise Cyclic Tag) — a two symbol language `{0, 1}` encoding the above.
+* [ABCT](https://github.com/hornc/abctag) (Arithmetic Bitwise Cyclic Tag) — BCT encoded into a single integer.
 * [Rule 110](https://en.wikipedia.org/wiki/Rule_110) elementary cellular automaton, using the ["blocks of bits" construction developed and described by Matthew Cook](https://doi.org/10.4204/eptcs.1.4).
 
 This is an experimental project / work in progress. Details and usability are being worked out as features are added.
@@ -83,46 +83,48 @@ CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC prog
 
 ### Example usage
 
-Compile [Hello, World! example](examples/HELLOWORLD.BAS) to cyclic tag:
+* Compile [Hello, World! example](examples/HELLOWORLD.BAS) to cyclic tag:
 
     ./CTBASIC.py examples/HELLOWORLD.BAS
 
-Use the included cyclic tag interpreter [ct.py](ct.py) to display output (input data = `1`):
+  * **output:* `1000000100101001000010110010101011011000101101100010110111101001011000100100000010101011101011011110101110010010110110001011001000100100001010000101001000000110;;;;;;;;;;`
+
+* Use the included cyclic tag interpreter [ct.py](ct.py) to run the above and display output (input data = `1`):
 
     ./ct.py <(./CTBASIC.py examples/HELLOWORLD.BAS) 1
 
-**output:** `Hello, World!`
+  * **output:** `Hello, World!`
 
-Compile to arithmetic cyclic tag:
+* Compile to arithmetic cyclic tag:
 
     ./CTBASIC.py -tABCT examples/HELLOWORLD.BAS
 
-Compile to rule 110 'blocks':
+* Compile to rule 110 'blocks':
 
     ./CTBASIC.py -t110 examples/HELLOWORLD.BAS
 
-Compile and run a [simple loop demonstration](examples/LOOP10.BAS):
+* Compile and run a [simple loop demonstration](examples/LOOP10.BAS):
 
     ./ct.py <(./CTBASIC.py examples/LOOP10.BAS)
 
-Compile and run a standard terminal [character 'animation' example](examples/ANIM_FRAME_TEST.BAS):
+* Compile and run a standard terminal [character 'animation' example](examples/ANIM_FRAME_TEST.BAS):
 
     ./ct.py --hold 300 <(./CTBASIC.py examples/ANIM_FRAME_TEST.BAS)
 
-Compile and run a (unary) [input example](examples/1_TO_10_OUTPUT.BAS):
+* Compile and run a (unary) [input example](examples/1_TO_10_OUTPUT.BAS):
 
     ./ct.py <(./CTBASIC.py examples/1_TO_10_OUTPUT.BAS) 11111111
 
-(vary the number of `1`s as input between 1 and 10)
+  * Vary the number of `1`s as input between `1` and `1111111111` (10).
 
-Using [xterm](https://invisible-island.net/xterm/), compile and run a [static graphics example](examples/INK_LINES.BAS):
+* Using [xterm](https://invisible-island.net/xterm/), compile and run a [static graphics example](examples/INK_LINES.BAS):
 
     xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/INK_LINES.BAS ) 1"
 
-Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
+* Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
 
     xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
 
-Use interactive mode to play a simple (cheating) [coin flip game](examples/coin_flip.bas):
+* Use interactive mode to play a simple (cheating) [coin flip game](examples/coin_flip.bas):
 
     ./ct.py --interactive <(./CTBASIC.py examples/coin_flip.bas) 1
