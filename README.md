@@ -1,17 +1,17 @@
 # CT-BASIC
 
-CTBASIC is a compiled [Sinclair BASIC](https://en.wikipedia.org/wiki/Sinclair_BASIC) insipred language targeting a "fantasy console" architecture using the [cyclic tag system](https://esolangs.org/wiki/Cyclic_tag_system) computational model.
+CTBASIC is a compiled [Sinclair BASIC](https://en.wikipedia.org/wiki/Sinclair_BASIC) inspired language targeting a "fantasy console" architecture using the [cyclic tag system](https://esolangs.org/wiki/Cyclic_tag_system) computational model.
 
 It compiles a reduced dialect of BASIC into one of the following compilation targets:
 
-* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag) -- a three symbol language `{0, 1, ;}`, or set of binary-string productions.
+* [CT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag#The_language_CT) (Cyclic Tag) -- a three symbol language `{0, 1, ;}`, or set of bitstring productions.
 * [BCT](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) (Bitwise Cyclic Tag) -- a two symbol language `{0, 1}` encoding the above.
 * [ABCT](https://github.com/hornc/abctag) (Arithmetic Bitwise Cyclic Tag) -- BCT encoded into a single integer.
 * [Rule 110](https://en.wikipedia.org/wiki/Rule_110) elementary cellular automaton, using the ["blocks of bits" construction developed and described by Matthew Cook](https://doi.org/10.4204/eptcs.1.4).
 
-This is an experimental project / work in progress. Details and usabilty are being worked out as features are added.
+This is an experimental project / work in progress. Details and usability are being worked out as features are added.
 
-The idea is to capture something of the early days of programming while using low level cyclic tag systems for 'useful' programs.
+The idea is to capture something of the early days of practical programming (i.e. the BASIC era) while using low level cyclic tag systems for 'useful' programs.
 
 
 ### The Fantasy Console
@@ -23,10 +23,10 @@ These differences _only_ apply to I/O, where the output conventions are side-eff
 
 The CTBASIC machine I/O conventions are as follows:
 
-1) Byte strings can be encoded and recognised within the datastring:
-   * 8 bit bytes are encoded within a 10 bit dataframe with a start-bit `1` and end-bit `0`.
-   * A string is a series of 10-bit frames begining with the [ASCII C0](https://en.wikipedia.org/wiki/C0_and_C1_control_codes) `STX` character (0x02), and terminated by the `ETX` character (0x03).
-   * When a valid string is completed, (i.e. the stop-bit `0` of the `ETX` is appended to the right of the datastring) the complete string is sent to output.
+1) Byte strings can be encoded and recognised within the data-string:
+   * 8 bit bytes are encoded within a 10 bit data-frame with start-bit `1` and end-bit `0`.
+   * A string is a series of 10-bit frames beginning with the [ASCII C0](https://en.wikipedia.org/wiki/C0_and_C1_control_codes) `STX` character (0x02), and terminated by the `ETX` character (0x03).
+   * When a valid string is completed, (i.e. the stop-bit `0` of the `ETX` is appended to the right of the data-string) the complete string is sent to output.
 
 2) Output is a serial byte-stream, with flexible destinations.
    * The CTBASIC language has drawing commands which when compiled produce serial byte output that can be recognised by [Tektronix 4010/4](https://en.wikipedia.org/wiki/Tektronix_4010) compatible terminals.
@@ -34,8 +34,8 @@ The CTBASIC machine I/O conventions are as follows:
    * Other byte-based output targets are also a possibility (e.g. audio, serial input to other devices).
 
 3) Interactive mode:
-   * An optional execution mode whereby when the datastring becomes empty (the standard **halt** condition) the user is prompted for more input to replenish the datastring. Previous program output could perhaps give the user some guidance on how to binary-encode an appropriate input response.
-   * If a new datastring input is provided, the program resumes with the next cyclic production.
+   * An optional execution mode whereby when the data-string becomes empty (the standard **halt** condition) the user is prompted for more input to replenish the data-string. Previous program output could perhaps give the user some guidance on how to binary-encode an appropriate input response.
+   * If a new data-string input is provided, the program resumes with the next cyclic production.
    * If no new input is provided, the program halts.
 
 
@@ -48,9 +48,9 @@ If the initial data string is empty, or does not contain _any_ `1` symbols, a pr
 This means that for any CT family program to perform a computation, an appropriate input data string _MUST_ be provided.
 At minimum, this input data string can be a single `1`. From this, a program can bootstrap any required data structure to allow it to accomplish its computation.
 
-Specifc user supplied variable input will need to be encoded in some fashion into the initial data string, the instructions for which will depend on the specific program being run.
-In general, there will need to be at least one `1` symbol for the program to have a chance of regognising the full range of user supplied inputs, including 'blank' input.
-Providing an input datastring begining with a `0` symbol will in general prevent a program from functioning correctly (unless the expected behaviour is "do nothing").
+Specific user supplied variable input will need to be encoded in some fashion into the initial data string, the instructions for which will depend on the specific program being run.
+In general, there will need to be at least one `1` symbol for the program to have a chance of recognising the full range of user supplied inputs, including 'blank' input.
+Providing an input data-string beginning with a `0` symbol will in general prevent a program from functioning correctly (unless the expected behaviour is "do nothing").
 
 
 ### The CTBASIC language
@@ -61,13 +61,13 @@ CTBASIC effectively provides ZX Spectrum BASIC style output macros to simplify f
 
 All control flow is provided by the underlying cyclic tag mechanism.
 
-Every command (output or memory writing) is conditional on there being a `1` at the leftmost bit of the current datastring.
+Every command (output or memory writing) is conditional on there being a `1` at the leftmost bit of the current data-string.
 
-All `CLEAR` commands (removing 1 or more bits from the datastring) are _unconditional_.
+All `CLEAR` commands (removing 1 or more bits from the data-string) are _unconditional_.
 
-The entire program runs in an implicit loop until the datastring is empty.
+The entire program runs in an implicit loop until the data-string is empty.
 
-The `END` command does not immediately end the program, but is a alias for `CLEAR 10`, which clears the datastring frame by frame, which if _all_ data is correctly aligned on `0` stopbits, can allow the program to cycle as many times as needed to clear the entire datastring without triggering any further output or effects. This however requires careful planning, and is not guaranteed to occur cleanly otherwise.
+The `END` command does not immediately end the program, but is a alias for `CLEAR 10`, which clears the data-string frame by frame, which if _all_ data is correctly aligned on `0` stop-bits, can allow the program to cycle as many times as needed to clear the entire data-string without triggering any further output or effects. This however requires careful planning, and is not guaranteed to occur cleanly otherwise.
 It is a fragile convention.
 
 ### Commands
@@ -87,7 +87,7 @@ Compile [Hello, World! example](examples/HELLOWORLD.BAS) to cyclic tag:
 
     ./CTBASIC.py examples/HELLOWORLD.BAS
 
-Use the included cyclic tag interpreter [ct.py](ct.py) to dispay output (input data = `1`):
+Use the included cyclic tag interpreter [ct.py](ct.py) to display output (input data = `1`):
 
     ./ct.py <(./CTBASIC.py examples/HELLOWORLD.BAS) 1
 
