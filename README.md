@@ -148,3 +148,27 @@ CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC prog
   'HIIJKHJIIIIIJLLLLK'
 )
 ```
+
+* Run the above example as cyclic tag in debug mode to view the current production and data-strings at each step:
+
+      ./ct.py <(./CTBASIC.py -tCT examples/Cook_1_4_example.bas) --debug
+
+  * **output:**
+```
+10;0110;;;;;	1
+0;0110;;;;;1	11
+;0110;;;;;10	110
+0110;;;;;10;	10
+110;;;;;10;0	100
+10;;;;;10;01	1001
+0;;;;;10;011	10011
+;;;;;10;0110	100110
+;;;;10;0110;	00110
+;;;10;0110;;	0110
+;;10;0110;;;	110
+;10;0110;;;;	10
+10;0110;;;;;	0
+10;0110;;;;;	0
+0;0110;;;;;1	0
+;0110;;;;;10	0
+```
