@@ -17,9 +17,9 @@ The idea is to capture something of the early days of practical programming (i.e
 ### The Fantasy Console
 
 CTBASIC compiles to standard versions of the above cyclic-tag families, so any compiled program _will_ run on all of them.
-However, in order to provide some user feedback, the CTBASIC architecture assumes a particular set of output conventions, which distinguish a CTBASIC 'machine' from a plain cyclic-tag interpreter.
+However, in order to provide some user feedback, the CTBASIC architecture assumes a particular set of output conventions which distinguish a CTBASIC 'machine' from a plain cyclic-tag interpreter.
 
-These differences _only_ apply to I/O, where the output conventions are side-effects (not affecting the underlying computation, and the input conventions only affect starting (and re-starting) states, so also don't affect the fundamental computational process.
+These differences _only_ apply to I/O. The output conventions are side-effects and do not affect the underlying computation. Input conventions only affect starting (and re-starting) states, so also don't affect the fundamental computational process.
 
 The CTBASIC machine I/O conventions are as follows:
 
