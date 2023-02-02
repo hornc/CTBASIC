@@ -123,13 +123,13 @@ CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC prog
 
     xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/teapot.bas  ) 1"
 
-<img alt="2D Utah teapot output" src="img/teapot.png" align="right />
+  * ![2D Utah teapot output](img/teapot.png)
 
 * Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
 
     xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
 
-<img alt="Rotating cube output" src="img/cube.gif" align="right />
+  * ![Rotating cube output](img/cube.gif)
 
 * Use interactive mode to play a simple (cheating) [coin flip game](examples/coin_flip.bas):
 
