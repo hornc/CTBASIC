@@ -85,60 +85,60 @@ CTBASIC comes with a simple [Cyclic Tag interpreter](ct.py) to test CTBASIC prog
 
 * Compile [Hello, World! example](examples/HELLOWORLD.BAS) to cyclic tag:
 
-    ./CTBASIC.py examples/HELLOWORLD.BAS
+      ./CTBASIC.py examples/HELLOWORLD.BAS
 
-  * **output:* `1000000100101001000010110010101011011000101101100010110111101001011000100100000010101011101011011110101110010010110110001011001000100100001010000101001000000110;;;;;;;;;;`
+  * **output:** `1000000100101001000010110010101011011000101101100010110111101001011000100100000010101011101011011110101110010010110110001011001000100100001010000101001000000110;;;;;;;;;;`
 
 * Use the included cyclic tag interpreter [ct.py](ct.py) to run the above and display output (input data = `1`):
 
-    ./ct.py <(./CTBASIC.py examples/HELLOWORLD.BAS) 1
+      ./ct.py <(./CTBASIC.py examples/HELLOWORLD.BAS) 1
 
   * **output:** `Hello, World!`
 
 * Compile to arithmetic cyclic tag:
 
-    ./CTBASIC.py -tABCT examples/HELLOWORLD.BAS
+      ./CTBASIC.py -tABCT examples/HELLOWORLD.BAS
 
   * **output:** `2188296472577726911166636231243756842502740360147865646454687653848030097758545005123757741056578902`
 
 * Compile to rule 110 'blocks':
 
-    ./CTBASIC.py -t110 examples/HELLOWORLD.BAS
+      ./CTBASIC.py -t110 examples/HELLOWORLD.BAS
 
 * Compile and run a [simple loop demonstration](examples/LOOP10.BAS):
 
-    ./ct.py <(./CTBASIC.py examples/LOOP10.BAS)
+      ./ct.py <(./CTBASIC.py examples/LOOP10.BAS)
 
 * Compile and run a standard terminal [character 'animation' example](examples/ANIM_FRAME_TEST.BAS):
 
-    ./ct.py --hold 300 <(./CTBASIC.py examples/ANIM_FRAME_TEST.BAS)
+      ./ct.py --hold 300 <(./CTBASIC.py examples/ANIM_FRAME_TEST.BAS)
 
 * Compile and run a (unary) [input example](examples/1_TO_10_OUTPUT.BAS):
 
-    ./ct.py <(./CTBASIC.py examples/1_TO_10_OUTPUT.BAS) 11111111
+      ./ct.py <(./CTBASIC.py examples/1_TO_10_OUTPUT.BAS) 11111111
 
   * Vary the number of `1`s as input between `1` and `1111111111` (10).
 
 * Using [xterm](https://invisible-island.net/xterm/), compile and run a static graphics example: [2D Utah teapot](examples/teapot.bas):
 
-    xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/teapot.bas  ) 1"
+      xterm -hold -t -e "./ct.py <(./CTBASIC.py examples/teapot.bas  ) 1"
 
   * ![2D Utah teapot output](img/teapot.png)
 
 * Use `xterm` to display an [animated rotating cube](examples/CUBE.BAS):
 
-    xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
+      xterm -hold -t -e "./ct.py --hold 100  <(./CTBASIC.py examples/CUBE.BAS)"
 
   * ![Rotating cube output](img/cube.gif)
 
 * Use interactive mode to play a simple (cheating) [coin flip game](examples/coin_flip.bas):
 
-    ./ct.py --interactive <(./CTBASIC.py examples/coin_flip.bas) 1
+      ./ct.py --interactive <(./CTBASIC.py examples/coin_flip.bas) 1
 
 * Compile the `{YN, NYYN, 0, 0}` [example](examples/Cook_1_4_example.bas)
- from Matthew Cook, 2009, _A Concrete View of Rule 110 Computation_ [10.4204/eptcs.1.4](https://doi.org/10.4204%2Feptcs.1.4) p. 37:
+ from Matthew Cook, 2009, _A Concrete View of Rule 110 Computation_ [10.4204/eptcs.1.4](https://doi.org/10.4204%2Feptcs.1.4), p.37:
 
-    ./CTBASIC.py -t110 examples/Cook_1_4_example.bas
+      ./CTBASIC.py -t110 examples/Cook_1_4_example.bas
 
   * **output:**
 ```
