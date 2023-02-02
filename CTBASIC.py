@@ -189,7 +189,7 @@ class CTCompiler:
             elif line.startswith('PRINT'):
                 if self.context[-1] == CONTROL:
                     append += print_(STX) + parse_print(line) + print_(ETX)
-                elif context[-1] == GRAPH:
+                elif self.context[-1] == GRAPH:
                     self.context[-1] = TEXT
                     append += print_(graphics.US) + parse_print(line)
             elif line.startswith('ASM'):
