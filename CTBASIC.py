@@ -188,10 +188,8 @@ class CTCompiler:
                 append += parse_clear(line)
             elif line.startswith('PRINT'):
                 if self.context[-1] == CONTROL:
-                    append += print_(STX) + parse_print(line) + print_(ETX)
-                elif self.context[-1] == GRAPH:
-                    self.context[-1] = TEXT
-                    append += print_(graphics.US) + parse_print(line)
+                    self.context += [OUTPUT, TEXT]
+                append += print_(STX + graphics.US) + parse_print(line) + print_(ETX)  # Switch to text mode on print
             elif line.startswith('ASM'):
                 append = parse_asm(line)
             elif line.startswith('FILL'):
