@@ -8,38 +8,40 @@ Comments. Ignored by the compiler.
 ### PRINT "_s_"
 _chars + 4 frames (+ 3 frames if no newline)_
 
-Write STX / ETX bounded string, with start=1 and end=0 bits (10 bits per frame) to DATA (output data convention).
+Write `STX` / `ETX` bounded string, with start=1 and end=0 bits (10 bits per frame) to data-string (output data convention).
 
 ### CHR$ _n_
 _1 frame_
 
 Convert number _n_ into its ASCII character (8bit). Useful for sending ASCII control characters using `PRINT`.
 
-### DATA
-Write binary / boolean / integer / string to DATA.
+### DATA _bitstring|bool|int|str_
+Write binary / boolean / integer / string to data-string.
 
-### BIN
-Write binary to DATA.
+### BIN _bitstring_
+Write binary to data-string.
 
-### ASM
+### ASM _code_
 Include raw cyclic tag `{0, 1, ;}` in the compiled output.
 
 ### CLEAR _n_
-Deletes _n_ bits from datastring DATA. (Borrowed from ZX Spectrum BASIC).
+Deletes _n_ bits from data-string. (Borrowed from ZX Spectrum BASIC).
 
 ### FILL _n_
-Appends _n_ set bits (`1`) to datastring DATA, if leftmost databit is set.
+Appends _n_ set bits (`1`) to data-string, if leftmost data-bit is set.
 
 ### ZFILL _n_
-Appends _n_ unset bits (`0`) to datastring DATA, if leftmost databit is set.
+Appends _n_ unset bits (`0`) to data-string, if leftmost data-bit is set.
 
 ### INPUT _v_
+_UNIMPLEMENTED_
 Assign the next bit of input data to variable _v_. Can only be used one at the beginning of the program. Special variable `_` can be used to consume the first input bit which always has to be one to allow a CT program to get started. (Borrowed from the Python convention).
 
 ### END
-Completely consume datastring DATA to trigger the cyclic tag system halt condition.
+An alias for `CLEAR 10`, which clears the data-string frame by frame, which if _all_ data is correctly aligned on `0` stop-bits, can allow the program to cycle as many times as needed to clear the entire data-string without triggering any further output or effects.
 
 ## Graphics
+_3 frames + graphics command frame total_
 
 CT-BASIC can produce Tektronix 401x graphical output using the following ZX Spectrum borrowed commands:
 
