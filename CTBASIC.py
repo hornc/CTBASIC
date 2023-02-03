@@ -14,10 +14,9 @@ import sys
 
 from CTBASIC.rule110 import rule110
 from CTBASIC import graphics
+from CTBASIC.chars import CLS, STX, ETX, ESC, US
 from CTBASIC.graphics import Graphics
 
-STX = '\x02'
-ETX = '\x03'
 ASM_CT = re.compile(r'^[01;]*$')
 BIN = re.compile(r'^[01]*$')
 
@@ -159,7 +158,7 @@ class CTCompiler:
                 append += parse_clear(line)
             elif line.startswith('PRINT'):
                 # Switch to text mode on print
-                append += print_(STX + graphics.US) + parse_print(line) + print_(ETX)
+                append += print_(STX + US) + parse_print(line) + print_(ETX)
             elif line.startswith('ASM'):
                 append = parse_asm(line)
             elif line.startswith('FILL'):
@@ -167,7 +166,7 @@ class CTCompiler:
             elif line.startswith('ZFILL'):
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
-                append += print_(STX + graphics.CLS + ETX)
+                append += print_(CLS)
             elif line.startswith('END'):
                 append += clear(10)
             ct += str(append)

@@ -9,7 +9,7 @@ https://github.com/hornc/abctag
 import argparse
 import re
 from time import sleep
-from CTBASIC.graphics import CLS_TEK as CLS
+from CTBASIC.chars import CLS_TEK as CLS
 
 CT = '01;'
 STX = '1000000100'
