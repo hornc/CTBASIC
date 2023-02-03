@@ -6,7 +6,7 @@ _0 frames_
 Comments. Ignored by the compiler.
 
 ### PRINT "_s_"
-_chars + 3 frames_
+_chars + 4 frames (+ 3 frames if no newline)_
 
 Write STX / ETX bounded string, with start=1 and end=0 bits (10 bits per frame) to DATA (output data convention).
 
@@ -44,7 +44,7 @@ Completely consume datastring DATA to trigger the cyclic tag system halt conditi
 CT-BASIC can produce Tektronix 401x graphical output using the following ZX Spectrum borrowed commands:
 
 ### CLS
-_6 frames_
+_8 frames_
 
 Clear screen. Writes Tektronix 401x control sequence `ESC` + `FF`.
 

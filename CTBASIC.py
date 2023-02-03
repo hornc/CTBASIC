@@ -180,8 +180,8 @@ class CTCompiler:
             elif line.startswith('DATA'):
                 append = parse_data(line)
             elif line.startswith('BIN'):
-                if self.context_transition():
-                    append += print_(ETX)  # TODO: why isn't this occurring every OUTPUT to CONTROL transition?
+                #if self.context_transition():
+                #    append += print_(ETX)  # TODO: why isn't this occurring every OUTPUT to CONTROL transition?
                 append += parse_bin(line)
             elif line.startswith('CLEAR'):
                 self.context_transition()
@@ -206,6 +206,8 @@ class CTCompiler:
                 self.context_transition()
                 append += clear(10)
             ct += str(append)
+        if gfx_block:
+            ct += print_(STX + gfx_block.end() + ETX)
         self.ct = ct
 
 
