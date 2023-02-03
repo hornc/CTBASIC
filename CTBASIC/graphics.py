@@ -17,7 +17,7 @@ ANSI_CLEAR = f'{ESC}[J'
 RIS = f'{ESC}c'  # ANSI control Reset to Initial State (does not work on TEK4010)
 CLS_TEK = f'{ESC}{FF}'  # Tektronix 4010 clear screen
 CLS_ANSI = f'{ANSI_HOME}{ANSI_CLEAR}'  # ANSI control clear screen
-CLS_BOTH = f'{RIS}{ESC}{FF}{CAN}'  # 5 bytes long
+CLS_BOTH = f'{CLS_TEK}c{CLS_TEK}{CAN}'  # 6 bytes long, combination ANSI RIS and TEK CLS
 CLS = CLS_BOTH
 
 
@@ -36,7 +36,6 @@ def tekpoint(x, y):
     lX = x & 0x1f
     hY = (y & 0xffe0) >> 5
     lY = y & 0x1f
-    #print(f'X: {hX} {lX} , {hY} {lY}')
     return ''.join([chr(v) for v in [hY + 32, lY + 96, hX + 32, lX + 64]])
 
 
@@ -44,7 +43,6 @@ class Graphics:
     def __init__(self):
         self.output = GS
         self.plotpos = (0, 0)
-        self.last = None
 
     def coords(self, line):
         """Returns a tuple [a, b] of statement arguments."""
@@ -57,17 +55,13 @@ class Graphics:
 
         if line.startswith('PLOT'):
             a, b = self.coords(line)
-            if self.last in ('PLOT', 'DRAW'):
-                self.output += tekpoint(*self.plotpos) + US + GS
             self.plotpos = (a, b)
-            self.output += tekpoint(a, b)
-            self.last = 'PLOT'
+            self.output += GS + tekpoint(a, b) * 2
         elif line.startswith('DRAW'):
             a, b = self.coords(line)
             x, y = self.plotpos
             self.plotpos = (x + a, y + b)
             self.output += tekpoint(*self.plotpos)
-            self.last = 'DRAW'
         elif line.startswith('INK'):
             c = int(line[3:].strip())
             inks = '`abcdhijkl'

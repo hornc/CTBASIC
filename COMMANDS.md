@@ -44,7 +44,7 @@ Completely consume datastring DATA to trigger the cyclic tag system halt conditi
 CT-BASIC can produce Tektronix 401x graphical output using the following ZX Spectrum borrowed commands:
 
 ### CLS
-_5 frames_
+_6 frames_
 
 Clear screen. Writes Tektronix 401x control sequence `ESC` + `FF`.
 
@@ -68,7 +68,7 @@ Sets the ink (foreground) colour of the line drawing pen.
 7. Defocused, dot-dashed
 
 ### PLOT _x_, _y_
-_4 or 6 frames_
+_9 frames_
 
 Plots a point at absolute coordinate _x_, _y_.
 * _x_ range: 0–1023.
