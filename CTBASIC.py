@@ -5,7 +5,7 @@ Cyclic Tag BASIC compiler.
 
 Compiles a reduced dialect of BASIC into CT or BCT.
 
-Salpynx, 2022.
+Charles Horn, 2022.
 """
 
 import argparse
@@ -14,22 +14,15 @@ import sys
 
 from CTBASIC.rule110 import rule110
 from CTBASIC import graphics
+from CTBASIC.chars import CLS, STX, ETX, ESC, US
 from CTBASIC.graphics import Graphics
 
-STX = '\x02'
-ETX = '\x03'
 ASM_CT = re.compile(r'^[01;]*$')
 BIN = re.compile(r'^[01]*$')
 
 PRINTLINE = re.compile(r'("[^"]*"|[,;\'\+])')
 SPLIT_SENTENCES = re.compile(r'\s*(REM.*|[^:]+(?:(?:[^:]*"[^"]*"[^:]*)+)|[^:]+)\s*')  # colon delimited sentences on one line
 LINE_NUMS = re.compile(r'^[0-9]+\s*')
-
-# Context constants:
-CONTROL = 0
-OUTPUT = 1
-TEXT = 3
-GRAPH = 5
 
 
 def parse_clear(line):
@@ -122,7 +115,6 @@ class CTCompiler:
         self.source = []
         self.preprocess(lines)
         self.ct = None
-        self.context = [CONTROL]
 
     def preprocess(self, lines):
         """Perform line and sentence based pre-processing."""
@@ -130,17 +122,6 @@ class CTCompiler:
             line = LINE_NUMS.sub('', line)
             sentences = SPLIT_SENTENCES.findall(line)
             self.source += sentences
-
-    def context_transition(self):
-        """ Transition to CONTROL context.
-            Returns True if a transition was made.
-        """
-        if self.context[-1] != CONTROL:
-            self.context.pop()
-            self.context[-1] = CONTROL
-            return True
-        else:
-            return False
 
     def compile(self, target='CT'):
         if not self.ct:
@@ -163,35 +144,21 @@ class CTCompiler:
             if line.startswith('REM') or not line:
                 continue
             if graphics.match(line):
-                if self.context[-1] == CONTROL:
-                    self.context += [OUTPUT, GRAPH]
-                    gfx_block = Graphics()
-                    #append += print_(STX + graphics.GS)
-                elif self.context[-1] == TEXT:
-                    self.context[-1] = GRAPH
+                if not gfx_block:
                     gfx_block = Graphics()
                 gfx_block.append(line)
             elif gfx_block:  # Graphics block completed; append it to output
-                self.context.pop()
                 append += print_(STX + gfx_block.end() + ETX)
                 gfx_block = None
-            if line.startswith('INPUT'):
-                pass
-            elif line.startswith('DATA'):
+            if line.startswith('DATA'):
                 append = parse_data(line)
             elif line.startswith('BIN'):
-                if self.context_transition():
-                    append += print_(ETX)  # TODO: why isn't this occurring every OUTPUT to CONTROL transition?
                 append += parse_bin(line)
             elif line.startswith('CLEAR'):
-                self.context_transition()
                 append += parse_clear(line)
             elif line.startswith('PRINT'):
-                if self.context[-1] == CONTROL:
-                    append += print_(STX) + parse_print(line) + print_(ETX)
-                elif self.context[-1] == GRAPH:
-                    self.context[-1] = TEXT
-                    append += print_(graphics.US) + parse_print(line)
+                # Switch to text mode on print
+                append += print_(STX + US) + parse_print(line) + print_(ETX)
             elif line.startswith('ASM'):
                 append = parse_asm(line)
             elif line.startswith('FILL'):
@@ -199,15 +166,12 @@ class CTCompiler:
             elif line.startswith('ZFILL'):
                 append = parse_fill(line, 0)
             elif line.startswith('CLS'):
-                append += print_(STX + graphics.CLS + ETX)
-                if self.context[-1] == OUTPUT:
-                    self.context += [TEXT]
-            elif line.startswith('ENDIF'):
-                pass
+                append += print_(CLS)
             elif line.startswith('END'):
-                self.context_transition()
                 append += clear(10)
             ct += str(append)
+        if gfx_block:
+            ct += print_(STX + gfx_block.end() + ETX)
         self.ct = ct
 
 

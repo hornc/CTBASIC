@@ -67,7 +67,7 @@ All `CLEAR` commands (removing 1 or more bits from the data-string) are _uncondi
 
 The entire program runs in an implicit loop until the data-string is empty.
 
-The `END` command does not immediately end the program, but is a alias for `CLEAR 10`, which clears the data-string frame by frame, which if _all_ data is correctly aligned on `0` stop-bits, can allow the program to cycle as many times as needed to clear the entire data-string without triggering any further output or effects. This however requires careful planning, and is not guaranteed to occur cleanly otherwise.
+The `END` command does not immediately end the program, but is an alias for `CLEAR 10`, which clears the data-string frame by frame, which if _all_ data is correctly aligned on `0` stop-bits, can allow the program to cycle as many times as needed to clear the entire data-string without triggering any further output or effects. This however requires careful planning, and is not guaranteed to occur cleanly otherwise.
 It is a fragile convention.
 
 ### Commands

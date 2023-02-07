@@ -41,4 +41,4 @@ PRINT "* ";
 CLEAR 1
 
 REM Make sure we clear the entire maximum possible datastring up to this point to halt
-CLEAR 500
+CLEAR 510

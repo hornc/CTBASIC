@@ -13,7 +13,7 @@ CLEAR 1
 
 REM TITLE TEXT
 CLS
-PRINT "Tektronix 4010 animation in bitwise cyclic tag.";
+PRINT "Tektronix 4010 animation in cyclic tag.";
 BIN 1
 CLEAR 1
 
@@ -29,4 +29,4 @@ DRAW 200, 0
 BIN 0110
 CLEAR 1
 
-CLEAR 681
+CLEAR 661
