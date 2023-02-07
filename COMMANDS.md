@@ -6,7 +6,7 @@ _0 frames_
 Comments. Ignored by the compiler.
 
 ### PRINT "_str_"
-_chars + 4 frames (+ 3 frames if no newline)_
+_chars + 4 frames (chars + 3 frames if no newline)_
 
 Write `STX` / `ETX` bounded string, with start=1 and end=0 bits (10 bits per frame) to data-string (output data convention).
 
